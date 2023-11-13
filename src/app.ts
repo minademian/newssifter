@@ -1,112 +1,88 @@
-import express from 'express';
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
-import pino from 'pino';
-import pinoHttp from 'pino-http';
-import { z } from 'zod';
+import express, { Request, Response } from 'express';
+import { json } from 'body-parser';
+import crypto, { BinaryLike } from 'crypto';
+
+import config from './services/config';
+import GraphApi from './services/graph-api';
+let profile = require('./services/profile.js');
 
 const app = express();
-const logger = pino({ level: process.env.LOG_LEVEL ?? 'info' });
 
-app.use(
-  pinoHttp({
-    logger,
-    serializers: {
-      req: (req) => ({
-        id: req.id,
-        method: req.method,
-        url: req.url?.split('?')[0],
-      }),
-    },
-  })
-);
+app.use(json({ verify: verifyRequestSignature }));
 
-const normalizeHostname = (hostname: string): string =>
-  hostname.toLowerCase().replace(/^www\./, '');
+function verifyRequestSignature(req: Request, _res: Response, buf: Buffer) {
+  const signature = req.headers['x-hub-signature'];
 
-const questionableSources = new Set(
-  readFileSync(join(__dirname, '../list.csv'), 'utf8')
-    .split(/\r?\n/)
-    .slice(1)
-    .map((source) => normalizeHostname(source.trim()))
-    .filter(Boolean)
-);
-
-const urlParameterSchema = z
-  .string({
-    required_error: 'A url query parameter is required',
-    invalid_type_error: 'The url query parameter must be a string',
-  })
-  .trim()
-  .min(1, 'A url query parameter is required')
-  .transform((value, context) => {
-    let parsedUrl: URL;
-
-    try {
-      parsedUrl = new URL(value.includes('://') ? value : `http://${value}`);
-    } catch {
-      context.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'The url query parameter is invalid',
-      });
-      return z.NEVER;
+  if (!signature) {
+    console.warn(`Couldn't find "x-hub-signature" in headers.`);
+  } else {
+    const elements = (signature as string).split('=');
+    const signatureHash = elements[1];
+    const expectedHash = crypto
+      .createHmac('sha1', config.appSecret as BinaryLike)
+      .update(buf)
+      .digest('hex');
+    if (signatureHash != expectedHash) {
+      throw new Error("Couldn't validate the request signature.");
     }
-
-    if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
-      context.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Only HTTP and HTTPS URLs are supported',
-      });
-      return z.NEVER;
-    }
-
-    return { value, parsedUrl };
-  });
-
-export const findQuerySchema = z.object({
-  url: urlParameterSchema,
-});
-
-app.get('/find', (req, res) => {
-  const parsedQuery = findQuerySchema.safeParse(req.query);
-
-  if (!parsedQuery.success) {
-    req.log.warn(
-      {
-        issues: parsedQuery.error.issues.map(({ code, path }) => ({ code, path })),
-      },
-      'Invalid /find query parameters'
-    );
-    return res.status(400).json({
-      error: parsedQuery.error.issues[0]?.message ?? 'Invalid query parameters',
-    });
   }
+}
 
-  const { value, parsedUrl } = parsedQuery.data.url;
-  const hostname = normalizeHostname(parsedUrl.hostname);
-  const questionable = questionableSources.has(hostname);
-
-  req.log.info(
-    { sourceHostname: hostname, questionable },
-    'Completed news source lookup'
-  );
-
-  return res.json({
-    url: value,
-    questionable,
-  });
+app.get('/', (req: Request, res: Response) => {
+  res.status(200).json({ alive: true });
 });
 
-if (require.main === module) {
-  const port = Number(process.env.PORT || 3567);
-  const server = app.listen(port, () => {
-    logger.info({ port }, 'Server listening');
-  });
+app.get('/profile', (req: Request, res: Response) => {
+  let token = req.query['verify_token'];
+  let mode = req.query['mode'];
+  let url = config.webhookUrl;
 
-  server.on('error', (error: Error) => {
-    logger.error({ err: error, port }, 'Server failed to start');
-    process.exitCode = 1;
-  });
-}
+  if (url && url.startsWith('http://'))
+    // change back to https when going live
+    res.status(200).send('ERROR - need a proper API_URL configured.');
+
+  const Profile = new profile();
+
+  // Check if a token and mode is in the query string of the request
+  if (mode && token) {
+    if (token === config.verifyToken) {
+      if (mode == 'webhook' || mode == 'all') {
+        Profile.setWebhook();
+        res.write(
+          `<p>&#9989; Set app ${config.appId} call to ${config.webhookUrl}</p>`
+        );
+      }
+      if (mode == 'profile' || mode == 'all') {
+        Profile.setThread();
+        res.write(
+          `<p>&#9989; Set Messenger Profile of Page ${config.pageId}</p>`
+        );
+      }
+      if (mode == 'nlp' || mode == 'all') {
+        GraphApi.callNLPConfigsAPI();
+        res.write(
+          `<p>&#9989; Enabled Built-in NLP for Page ${config.pageId}</p>`
+        );
+      }
+      if (mode == 'domains' || mode == 'all') {
+        Profile.setWhitelistedDomains();
+        res.write(
+          `<p>&#9989; Whitelisted domains: ${config.whitelistedDomains}</p>`
+        );
+      }
+      if (mode == 'private-reply') {
+        Profile.setPageFeedWebhook();
+        res.write(`<p>&#9989; Set Page Feed Webhook for Private Replies.</p>`);
+      }
+      res.status(200).end();
+    } else {
+      // Responds with '403 Forbidden' if verify tokens do not match
+      res.sendStatus(403);
+    }
+  } else {
+    // Returns a '404 Not Found' if mode or token are missing
+    res.sendStatus(404);
+  }
+});
 
 export default app;

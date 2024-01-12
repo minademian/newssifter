@@ -185,3 +185,6 @@ client.json
 token.json
 credentials.json
 data*.json
+
+# Redis
+dump.rdb

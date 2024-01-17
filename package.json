@@ -7,6 +7,7 @@
     "test": "npx nx affected -t test && npx nx affected -t component-test",
     "test:watch": "npx nx affected:test --all --parallel --maxParallel 10 --watch",
     "dev": "nx run-many --parallel --target=serve --projects=chatbot,api",
+    "test:chatbot:e2e": "nx e2e chatbot-e2e --ui",
     "fe": "nx serve chatbot",
     "be": "nx serve api"
   },

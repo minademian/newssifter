@@ -1,17 +1,20 @@
 import styled from 'styled-components';
+import { useTranslation } from 'react-i18next';
 
-/* eslint-disable-next-line */
-export interface TextFieldProps {}
+export interface TextFieldProps {
+  label: string;
+}
 
-const StyledTextField = styled.div`
-  color: black;
-`;
+const StyledTextField = styled.div``;
 
 export function TextField(props: TextFieldProps) {
+  const { label } = props;
+  const { t } = useTranslation();
+
   return (
     <StyledTextField>
-      <label>
-        Submit a link to start a conversation about this article!
+      <label className="flex tracking-tight text-black text-xl">
+        {label}
         <input type="text" name="article" id="article" />
       </label>
     </StyledTextField>

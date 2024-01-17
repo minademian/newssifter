@@ -8,14 +8,16 @@ export const styles = {
   warning: 'border-yellow-500 bg-yellow-500 hover:bg-yellow-600',
   info: 'border-teal-500 bg-teal-500 hover:bg-teal-600',
 };
+
 export type SubmitButtonProps = PropsWithChildren<
   ButtonHTMLAttributes<HTMLButtonElement>
->;
+> & { label: string };
 
 const StyledFormField = styled.div``;
 
 export function SubmitButton({ children, ...props }: SubmitButtonProps) {
   const className = props.className || '';
+  const label = props.label || '';
 
   return (
     <StyledFormField>
@@ -28,7 +30,7 @@ export function SubmitButton({ children, ...props }: SubmitButtonProps) {
         name="start"
         id="start"
       >
-        Tell Me!
+        {label}
       </button>
     </StyledFormField>
   );

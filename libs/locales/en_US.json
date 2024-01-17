@@ -1,5 +1,14 @@
 {
-  "menu": {
-    "check": "Check News Item"
+  "translation": {
+    "api": {
+      "menu": {
+        "check": "Check News Item"
+      }
+    },
+    "chatbot": {
+      "app-title": "News Sifter",
+      "cta-label": "Submit a link to start a conversation about this article!",
+      "cta-btn": "Tell Me!"
+    }
   }
 }

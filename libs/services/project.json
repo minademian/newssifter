@@ -1,0 +1,24 @@
+{
+  "name": "services",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/services/src",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/libs/services",
+        "tsConfig": "libs/services/tsconfig.lib.json",
+        "assets": []
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    }
+  }
+}

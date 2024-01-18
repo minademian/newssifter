@@ -2,7 +2,7 @@ import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
 import styled from 'styled-components';
 
 export const styles = {
-  primary: 'border-indigo-500 bg-indigo-500 hover:bg-indigo-600',
+  primary: 'border-green-300 bg-indigo-500 hover:bg-indigo-600',
   success: 'border-green-500 bg-green-500 hover:bg-green-600',
   error: 'border-red-500 bg-red-500 hover:bg-red-600',
   warning: 'border-yellow-500 bg-yellow-500 hover:bg-yellow-600',

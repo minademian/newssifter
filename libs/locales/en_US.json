@@ -8,7 +8,8 @@
     "chatbot": {
       "app-title": "News Sifter",
       "cta-label": "Submit a link to start a conversation about this article!",
-      "cta-btn": "Tell Me!"
+      "cta-btn": "Tell Me!",
+      "cta-placeholder": "Your link..."
     }
   }
 }

@@ -13,11 +13,19 @@ export function Heading(props: HeadingProps) {
 
   return (
     <StyledHeading>
-      <h1 className="text-4xl font-bold tracking-tight text-white sm:text-6xl">
+      <h1 className="text-4xl font-bold tracking-tight text-black sm:text-6xl">
         {label}
       </h1>
     </StyledHeading>
   );
 }
 
-export default Heading;
+export function SubHeading(props: HeadingProps) {
+  const { label } = props;
+
+  return (
+    <StyledHeading>
+      <h4 className="text-base font-bold tracking-tight text-black">{label}</h4>
+    </StyledHeading>
+  );
+}

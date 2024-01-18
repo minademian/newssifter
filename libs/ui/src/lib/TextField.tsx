@@ -7,15 +7,26 @@ export interface TextFieldProps {
 
 const StyledTextField = styled.div``;
 
+const StyledInput = styled.input`
+  background-color: white;
+  border: 1px solid #ccc;
+`;
+
 export function TextField(props: TextFieldProps) {
   const { label } = props;
   const { t } = useTranslation();
 
   return (
-    <StyledTextField>
+    <StyledTextField className="flex flex-col align-middle">
       <label className="flex tracking-tight text-black text-xl">
         {label}
-        <input type="text" name="article" id="article" />
+        <StyledInput
+          type="text"
+          placeholder={t('chatbot.cta-placeholder')}
+          name="article"
+          id="article"
+          className="text-black"
+        />
       </label>
     </StyledTextField>
   );

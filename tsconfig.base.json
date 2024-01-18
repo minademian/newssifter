@@ -16,9 +16,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@newssifter/ui": ["libs/ui/src/index.ts"],
+      "@newssifter/locales": ["libs/locales/*"],
       "@newssifter/services": ["libs/services/src/lib/*"],
-      "@newssifter/locales": ["libs/locales/*"]
+      "@newssifter/ui": ["libs/ui/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

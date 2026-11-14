@@ -1,21 +1,11 @@
 import { Request, Response } from 'express';
 import { getDomain } from 'tldts';
 import { HasTypeSpecification } from '@newssifter/specifications';
-import sourceData from '../assets/data_2.json';
-
-type SourceRecord = {
-  url: string;
-  type1?: string;
-  type2?: string;
-};
+import { sourceRecords } from '../services/sources';
 
 const hasType = new HasTypeSpecification();
 
 export const ExtractDomainName =(fullUrl: string) => getDomain(fullUrl);
-
-const sourceRecords: SourceRecord[] = sourceData.filter(
-  (record) => record.url.toLowerCase() !== 'url'
-);
 
 const getLookupDomain = (value: string): string | null => {
   let parsedUrl: URL;

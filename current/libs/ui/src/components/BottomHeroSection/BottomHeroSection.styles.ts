@@ -1,6 +1,11 @@
 import styled from '@emotion/styled';
 import { theme } from '../../lib/theme';
 
+export const Details = styled.div`
+  width: 100%;
+  max-width: 1000px;
+`;
+
 export const StepsList = styled.ol`
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

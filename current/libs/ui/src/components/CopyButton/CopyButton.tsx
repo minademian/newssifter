@@ -2,6 +2,7 @@ import { useTranslation } from 'react-i18next';
 import { Check, Copy, X } from 'lucide-react';
 import { CopyState, useClipboard } from '@newssifter/hooks';
 import { IconButton } from '../IconButton';
+import { VisuallyHidden } from '../VisuallyHidden';
 
 export interface CopyButtonProps {
   text: string;
@@ -26,9 +27,9 @@ export function CopyButton({ text }: CopyButtonProps) {
       onClick={() => void copy(text)}
     >
       <Icon size={14} aria-hidden="true" />
-      <span className="sr-only" role="status">
+      <VisuallyHidden role="status">
         {state === 'idle' ? '' : t(TITLE_KEYS[state])}
-      </span>
+      </VisuallyHidden>
     </IconButton>
   );
 }

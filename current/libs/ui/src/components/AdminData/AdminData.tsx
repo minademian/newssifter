@@ -4,8 +4,8 @@ import { MatchesTypeSpecification } from '@newssifter/specifications';
 import { CopyButton } from '../CopyButton';
 import { SampleUrlButton } from '../SampleUrlButton';
 import { TypeFilter } from '../TypeFilter';
+import { VisuallyHiddenLabel } from '../VisuallyHidden';
 import {
-  BackLink,
   Controls,
   Page,
   Search,
@@ -86,91 +86,80 @@ export function AdminData() {
   }, [data]);
 
   return (
-    <main className="app-shell">
-      <div className="app-container">
-        <header className="site-header">
-          <a className="brand" href="/" aria-label={t('site.home-label')}>
-            <img className="brand-banner" src="/banner.jpeg" alt="" />
-          </a>
-          <BackLink href="/">{t('admin.back')}</BackLink>
-        </header>
+    <Page>
+      <Title>{t('admin.title')}</Title>
 
-        <Page>
-          <Title>{t('admin.title')}</Title>
+      {error && (
+        <Status isError role="alert">
+          {error.key === 'request-failed'
+            ? t('admin.request-failed', { status: error.status })
+            : t('admin.load-error')}
+        </Status>
+      )}
+      {!data && !error && <Status>{t('admin.loading')}</Status>}
 
-          {error && (
-            <Status isError role="alert">
-              {error.key === 'request-failed'
-                ? t('admin.request-failed', { status: error.status })
-                : t('admin.load-error')}
-            </Status>
-          )}
-          {!data && !error && <Status>{t('admin.loading')}</Status>}
+      {data && (
+        <>
+          <Controls>
+            <VisuallyHiddenLabel htmlFor="admin-search">
+              {t('admin.search-label')}
+            </VisuallyHiddenLabel>
+            <Search
+              id="admin-search"
+              type="search"
+              placeholder={t('admin.search-placeholder')}
+              value={query}
+              onChange={(event) => setQuery(event.currentTarget.value)}
+            />
+            <TypeFilter
+              label={t('admin.columns.type')}
+              types={types1}
+              value={activeType1}
+              onChange={setActiveType1}
+            />
+            <TypeFilter
+              label={t('admin.columns.type2')}
+              types={types2}
+              value={activeType2}
+              onChange={setActiveType2}
+            />
+          </Controls>
 
-          {data && (
-            <>
-              <Controls>
-                <label className="sr-only" htmlFor="admin-search">
-                  {t('admin.search-label')}
-                </label>
-                <Search
-                  id="admin-search"
-                  type="search"
-                  placeholder={t('admin.search-placeholder')}
-                  value={query}
-                  onChange={(event) => setQuery(event.currentTarget.value)}
-                />
-                <TypeFilter
-                  label={t('admin.columns.type')}
-                  types={types1}
-                  value={activeType1}
-                  onChange={setActiveType1}
-                />
-                <TypeFilter
-                  label={t('admin.columns.type2')}
-                  types={types2}
-                  value={activeType2}
-                  onChange={setActiveType2}
-                />
-              </Controls>
+          <Status aria-live="polite">
+            {t('admin.count', { shown: visible.length, total: data.total })}
+          </Status>
 
-              <Status aria-live="polite">
-                {t('admin.count', { shown: visible.length, total: data.total })}
-              </Status>
-
-              <TableWrap>
-                <Table>
-                  <thead>
-                    <tr>
-                      <th scope="col">{t('admin.columns.url')}</th>
-                      <th scope="col">{t('admin.columns.type')}</th>
-                      <th scope="col">{t('admin.columns.type2')}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {visible.map((source, index) => (
-                      <tr key={`${source.url}-${index}`}>
-                        <td>
-                          <UrlCell>
-                            <span>{source.url}</span>
-                            <UrlActions>
-                              <CopyButton text={source.url} />
-                              <SampleUrlButton source={source.url} />
-                            </UrlActions>
-                          </UrlCell>
-                        </td>
-                        <td>{source.type1}</td>
-                        <td>{source.type2}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </Table>
-              </TableWrap>
-            </>
-          )}
-        </Page>
-      </div>
-    </main>
+          <TableWrap>
+            <Table>
+              <thead>
+                <tr>
+                  <th scope="col">{t('admin.columns.url')}</th>
+                  <th scope="col">{t('admin.columns.type')}</th>
+                  <th scope="col">{t('admin.columns.type2')}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {visible.map((source, index) => (
+                  <tr key={`${source.url}-${index}`}>
+                    <td>
+                      <UrlCell>
+                        <span>{source.url}</span>
+                        <UrlActions>
+                          <CopyButton text={source.url} />
+                          <SampleUrlButton source={source.url} />
+                        </UrlActions>
+                      </UrlCell>
+                    </td>
+                    <td>{source.type1}</td>
+                    <td>{source.type2}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          </TableWrap>
+        </>
+      )}
+    </Page>
   );
 }
 

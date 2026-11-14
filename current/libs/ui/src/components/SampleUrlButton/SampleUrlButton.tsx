@@ -3,6 +3,7 @@ import { Check, FlaskConical, X } from 'lucide-react';
 import { generateSampleUrl } from '@newssifter/helpers';
 import { CopyState, useClipboard } from '@newssifter/hooks';
 import { IconButton } from '../IconButton';
+import { VisuallyHidden } from '../VisuallyHidden';
 
 export interface SampleUrlButtonProps {
   source: string;
@@ -28,9 +29,9 @@ export function SampleUrlButton({ source }: SampleUrlButtonProps) {
       onClick={() => void copy(generateSampleUrl(source))}
     >
       <Icon size={14} aria-hidden="true" />
-      <span className="sr-only" role="status">
+      <VisuallyHidden role="status">
         {state === 'idle' ? '' : t(TITLE_KEYS[state])}
-      </span>
+      </VisuallyHidden>
     </IconButton>
   );
 }

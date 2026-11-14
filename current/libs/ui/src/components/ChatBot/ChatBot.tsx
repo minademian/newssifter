@@ -13,6 +13,7 @@ import { Avatar } from '../Avatar';
 import { ComposerNote } from '../ComposerNote';
 import { SourceNotice } from '../SourceNotice';
 import { SourceNuance } from '../SourceNuance';
+import { VisuallyHidden, VisuallyHiddenLabel } from '../VisuallyHidden';
 import { getMessageText } from './getMessageText';
 import {
   Bubble,
@@ -105,9 +106,9 @@ export function ChatBot() {
             <EntryContent>
               <Speaker>{t('chatbot.speaker-bot')}</Speaker>
               <TypingBubble sender="assistant">
-                <span className="sr-only" role="status">
+                <VisuallyHidden role="status">
                   {t('chatbot.typing')}
-                </span>
+                </VisuallyHidden>
                 <Dot />
                 <Dot />
                 <Dot />
@@ -123,9 +124,9 @@ export function ChatBot() {
           void sendLookup();
         }}
       >
-        <label className="sr-only" htmlFor="source-url">
+        <VisuallyHiddenLabel htmlFor="source-url">
           {t('chatbot.cta-placeholder')}
-        </label>
+        </VisuallyHiddenLabel>
         <InputRow>
           <input
             type="text"

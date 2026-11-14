@@ -13,13 +13,6 @@ export const Title = styled.h1`
   font-weight: 800;
 `;
 
-export const BackLink = styled.a`
-  color: #1269a5;
-  font-size: 13px;
-  font-weight: 700;
-  text-decoration: underline;
-`;
-
 export const Controls = styled.div`
   display: grid;
   gap: 12px;

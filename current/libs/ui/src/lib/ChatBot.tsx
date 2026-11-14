@@ -19,8 +19,8 @@ const StyledInput = styled.input``;
 export function ChatBot(props: ChatBotProps) {
   const { t } = useTranslation();
   return (
-    <StyledChatBot className="rounded-3xl flex flex-col flex-wrap md:max-xl:flex-nowrap">
-      <Grid container>
+    <StyledChatBot className="rounded-3xl w-auto">
+      <Grid container className="flex flex-col">
         <div className="m-2">
           <Heading label={t('chatbot.app-title')}></Heading>
           <Divider></Divider>
@@ -29,16 +29,18 @@ export function ChatBot(props: ChatBotProps) {
           <SubHeading label={t('chatbot.cta-label')}></SubHeading>
         </div>
         <Divider></Divider>
-        <div className="flex m-2 flex-row">
-          <label className="flex tracking-tight text-black text-xl">
-            <StyledInput
-              type="text"
-              placeholder={t('chatbot.cta-placeholder')}
-              name="article"
-              id="article"
-              className="text-black"
-            />
-          </label>
+        <div className="flex flex-row justify-evenly m-2">
+          <div>
+            <label className="tracking-tight text-black text-xl px-2 py-4 flex-grow">
+              <StyledInput
+                type="text"
+                placeholder={t('chatbot.cta-placeholder')}
+                name="article"
+                id="article"
+                className="text-black"
+              />
+            </label>
+          </div>
           <SubmitButton
             label={t('chatbot.cta-btn')}
             className=" bg-green-300 hover:bg-green-600"

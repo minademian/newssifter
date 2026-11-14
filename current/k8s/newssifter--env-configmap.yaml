@@ -1,0 +1,18 @@
+apiVersion: v1
+data:
+  API_STORE_PREFIX: 'newssifter-api:'
+  APP_PORT: '3000'
+  GOOGLE_CLIENT_ID: 989412575158-2e4p4ae2c02dlqo9gmdhf21jj3tbdb8b.apps.googleusercontent.com
+  GOOGLE_CLIENT_SECRET: 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
+  GOOGLE_REDIRECT_URI: /authorized
+  GOOGLE_SPREADSHEET_ID: 1o3FFiCB_W2sCLH7g6iPwzC9lmfIj7ojlA-htvQCJhaw
+  GOOGLE_SPREADSHEET_RANGE: Sheet1!A2:C
+  PORT: '8000'
+  SESSION_SECRET: PIRATE-HOPS5-INLAY
+  VERIFY_TOKEN: newssifter
+kind: ConfigMap
+metadata:
+  creationTimestamp: '2024-01-16T16:49:22+01:00'
+  labels:
+    io.kompose.service: newssifter-api-newssifter-configmap
+  name: newssifter-configmap

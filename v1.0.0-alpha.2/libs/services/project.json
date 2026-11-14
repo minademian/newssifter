@@ -1,0 +1,28 @@
+{
+  "name": "services",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "libs/services",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "dependsOn": ["^build", "typecheck"],
+      "options": {
+        "outputPath": "dist/libs/services",
+        "skipTypeCheck": true
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc --noEmit -p libs/services/tsconfig.lib.json"
+      }
+    }
+  }
+}

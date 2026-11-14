@@ -1,0 +1,39 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "react", "jsx-a11y", "import"],
+  "categories": {
+    "correctness": "error"
+  },
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2022": true
+  },
+  "rules": {
+    "prefer-const": "error",
+    "no-unused-vars": ["error", { "ignoreRestSiblings": true }],
+    "react/rules-of-hooks": "error",
+    "react/exhaustive-deps": "warn",
+    "jsx-a11y/anchor-has-content": "warn",
+    "jsx-a11y/control-has-associated-label": "off",
+    "jsx-a11y/prefer-tag-over-role": "off"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.spec.{ts,tsx}", "**/*.test.{ts,tsx}", "**/*.it.ts"],
+      "env": {
+        "jest": true
+      },
+      "globals": {
+        "vi": "readonly"
+      }
+    }
+  ],
+  "ignorePatterns": [
+    "**/dist/**",
+    "**/coverage/**",
+    "**/node_modules/**",
+    "**/.nx/**",
+    "**/tmp/**"
+  ]
+}

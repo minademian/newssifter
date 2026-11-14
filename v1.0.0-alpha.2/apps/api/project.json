@@ -1,0 +1,69 @@
+{
+  "name": "api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/vite:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "dependsOn": ["^build", "typecheck"],
+      "options": {
+        "outputPath": "dist/apps/api",
+        "skipTypeCheck": true
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc --noEmit -p apps/api/tsconfig.app.json"
+      }
+    },
+    "serve": {
+      "executor": "nx:run-commands",
+      "defaultConfiguration": "development",
+      "options": {
+        "command": "nodemon --watch apps --ext ts,tsx,js,jsx,json,html,css,scss --exec \"nx build api --configuration=development && node dist/apps/api/main.js\""
+      },
+      "configurations": {
+        "development": {},
+        "production": {
+          "command": "nx build api --configuration=production && node dist/apps/api/main.js"
+        }
+      }
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "oxlint -c .oxlintrc.json {projectRoot}"
+      }
+    },
+    "lint-boundaries": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
+      "options": {
+        "reportsDirectory": "../../coverage/apps/api"
+      }
+    },
+    "deploy": {
+      "executor": "nx:run-commands",
+      "outputs": [],
+      "options": {
+        "command": ""
+      },
+      "production": {
+        "buildTarget": "api:build:production"
+      }
+    }
+  },
+  "tags": []
+}

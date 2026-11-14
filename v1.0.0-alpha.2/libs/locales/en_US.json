@@ -1,0 +1,122 @@
+{
+  "translation": {
+    "api": {
+      "menu": {
+        "check": "Check News Item"
+      }
+    },
+    "chatbot": {
+      "app-title": "News Sifter",
+      "welcome": "Welcome to News Sifter",
+      "cta-label": "Paste a source URL and I'll check whether it appears in our database.",
+      "cta-btn": "Check source",
+      "cta-placeholder": "Paste a news source URL",
+      "aria-label": "News Sifter source lookup",
+      "ready": "READY",
+      "speaker-bot": "NEWS SIFTER",
+      "speaker-bot-now": "NEWS SIFTER · NOW",
+      "speaker-user": "YOU",
+      "cta-hint": "I'll check whether the source is listed in our database.",
+      "typing": "News Sifter is checking the source",
+      "composer-note": "We only check the source URL against our database.",
+      "type-label": "The original database marked this source as:",
+      "found": "Yes, this source is in the database.",
+      "not-found": "Sorry, I couldn't find this source in our database.",
+      "errors": {
+        "server": "Error: The server encountered an error. Please try again.",
+        "status": "Error: The lookup failed with status {{status}}.",
+        "timeout": "Error: The lookup timed out. Please try again.",
+        "network": "Error: Could not reach the lookup service. Please try again."
+      }
+    },
+    "admin": {
+      "title": "Source data",
+      "back": "Back to lookup",
+      "loading": "Loading sources...",
+      "load-error": "Could not load sources.",
+      "request-failed": "The request failed with status {{status}}.",
+      "search-label": "Search sources",
+      "search-placeholder": "Search by URL",
+      "count": "Showing {{shown}} of {{total}} sources",
+      "columns": {
+        "url": "URL",
+        "type": "Type",
+        "type2": "2nd type"
+      }
+    },
+    "type-filter": {
+      "all": "all",
+      "none": "none"
+    },
+    "copy-button": {
+      "copy": "Copy",
+      "copied": "Copied",
+      "failed": "Copy failed",
+      "aria-label": "Copy {{text}}"
+    },
+    "sample-url-button": {
+      "generate": "Generate a sample URL and copy it",
+      "copied": "Sample URL copied",
+      "failed": "Copy failed",
+      "aria-label": "Generate a sample URL for {{source}} and copy it"
+    },
+    "site": {
+      "home-label": "News Sifter home",
+      "chat-now": "Chat Now",
+      "contact": "Contact",
+      "footer-tagline": "Pause. Check. Think critically.",
+      "footer-rights": "© 2026 Newssifter. All rights reserved by <company>Ursine Enterprises</company>."
+    },
+    "error": {
+      "title": "Page not found",
+      "body": "We do sift through news sources, but we can't create <i>ex nihilo</i>. Sorry.",
+      "home": "Back home"
+    },
+    "hero": {
+      "heading-line1": "More fair,",
+      "heading-line2": "less partisan factchecking.",
+      "how-it-works": "How does Newssifter work?"
+    },
+    "layout": {
+      "label": "Page layout",
+      "original": "Original",
+      "variant-1": "Variant 1"
+    },
+    "steps": {
+      "enter": {
+        "title": "Enter a source",
+        "text": "Enter a news source or article."
+      },
+      "check": {
+        "title": "We check the database",
+        "text": "We'll check whether it appears in the database."
+      },
+      "data": {
+        "title": "See the original data",
+        "text": "We'll provide the original data for the source."
+      },
+      "context": {
+        "title": "Get more context",
+        "text": "We'll add more nuanced context, especially for sources labelled “bias.” Those labels were predominantly applied to sources from the opposing political party."
+      }
+    },
+    "info-note": {
+      "inspired-by": "Inspired by Melissa Zimdar's",
+      "link": "False, Misleading, Clickbait-y, and/or Satirical “News” Sources"
+    },
+    "source-notice": {
+      "fake": {
+        "title": "This was coded originally as fake news",
+        "body": "This source is known to publish fake news and disinformation. Do not rely on it, and do not share its content as fact."
+      },
+      "hate": {
+        "title": "This was coded originally as hate speech",
+        "body": "This source is known to publish hate speech. Do not rely on it, and do not share its content as fact."
+      }
+    },
+    "source-nuance": {
+      "title": "Add some nuance",
+      "placeholder": "Placeholder: additional context about this source will appear here."
+    }
+  }
+}

@@ -12,7 +12,6 @@ import hpp from 'hpp';
 
 import { routes } from './routes';
 import config from './services/config';
-import { googleAuth } from './middlewares/google.middleware';
 
 const redisClient = createClient();
 redisClient.connect().catch(console.error);
@@ -60,6 +59,6 @@ app.use(
 );
 app.use(limiter);
 
-app.use(`/${config.apiPrefix}`, googleAuth, routes);
+app.use(`/${config.apiPrefix}`, routes);
 
 export default app;

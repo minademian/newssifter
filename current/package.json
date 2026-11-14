@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "prepare": "husky install",
+    "prepare": "cd .. && husky install",
     "test": "npx nx affected -t test && npx nx affected -t component-test",
     "test:watch": "npx nx affected:test --all --parallel --maxParallel 10 --watch",
     "dev": "nx run-many --parallel --target=serve --projects=chatbot,api",

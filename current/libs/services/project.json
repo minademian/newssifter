@@ -1,7 +1,7 @@
 {
   "name": "services",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "libs/services/src",
+  "sourceRoot": "libs/services",
   "projectType": "library",
   "targets": {
     "build": {
@@ -12,7 +12,7 @@
         "target": "node",
         "compiler": "tsc",
         "outputPath": "dist/libs/services",
-        "main": "libs/services/src/index.ts",
+        "main": "libs/services/index.ts",
         "tsConfig": "libs/services/tsconfig.lib.json",
         "webpackConfig": "libs/services/webpack.config.js",
         "assets": []

@@ -37,4 +37,14 @@ export function AppShell({ headerActions, footer, children }: AppShellProps) {
   );
 }
 
+export function AppBareShell({ children }: AppShellProps) {
+  return (
+    <Shell>
+      <Container>
+        {children}
+      </Container>
+    </Shell>
+  );
+}
+
 export default AppShell;

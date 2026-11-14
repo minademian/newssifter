@@ -8,15 +8,18 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import '@newssifter/services/i18n.browser.service';
 import { AdminDataPage } from './AdminData';
 import { AppPage } from './App';
+import { ChatPage } from './Chat';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
 root.render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="/admin/data" element={<AdminDataPage />} />
+        <Route path="/chat" element={<ChatPage />} />
         <Route path="*" element={<AppPage />} />
       </Routes>
     </BrowserRouter>

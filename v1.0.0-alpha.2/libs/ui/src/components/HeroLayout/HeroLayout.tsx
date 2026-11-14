@@ -6,30 +6,16 @@ import { ChatBot } from '../ChatBot';
 import { InfoNote } from '../InfoNote';
 import { StepsVariant1 } from '../StepsVariant1';
 import {
-  HeadingWrap,
   HeroSection,
   StepsColumn,
   Toggle,
   ToggleButton,
 } from './HeroLayout.styles';
+import { HeroHeading } from '../HeroHeading';
 
 export type LayoutVariant = 'original' | 'variant-1';
 
 export const LAYOUT_VARIANTS: LayoutVariant[] = ['original', 'variant-1'];
-
-function HeroHeading() {
-  const { t } = useTranslation();
-
-  return (
-    <HeadingWrap>
-      <h1>
-        {t('hero.heading-line1')}
-        <br />
-        <em>{t('hero.heading-line2')}</em>
-      </h1>
-    </HeadingWrap>
-  );
-}
 
 // The steps sit in a collapsed accordion under the chat card; the credit note stays visible below it.
 function HeroContent({ steps }: { steps: ReactNode }) {

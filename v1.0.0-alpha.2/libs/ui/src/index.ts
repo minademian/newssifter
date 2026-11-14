@@ -2,6 +2,7 @@ export * from './components/SubmitButton';
 export * from './components/TextField';
 export * from './components/Heading';
 export * from './components/ChatBot';
+export * from './components/HeroHeading';
 export * from './components/BottomHeroSection';
 export * from './components/SourceNuance';
 export * from './components/SourceNotice';

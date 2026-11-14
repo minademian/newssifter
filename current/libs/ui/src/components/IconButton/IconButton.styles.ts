@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { theme } from '../theme';
+import { theme } from '../../lib/theme';
 
 export const StyledIconButton = styled.button`
   flex: 0 0 auto;

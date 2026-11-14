@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { ALL_TYPES, NO_TYPE } from '@newssifter/specifications';
 import { Label, Option, Options, Row } from './TypeFilter.styles';
 
@@ -9,9 +10,10 @@ export interface TypeFilterProps {
 }
 
 export function TypeFilter({ label, types, value, onChange }: TypeFilterProps) {
+  const { t } = useTranslation();
   const options = [
-    { value: ALL_TYPES, text: 'all' },
-    { value: NO_TYPE, text: 'none' },
+    { value: ALL_TYPES, text: t('type-filter.all') },
+    { value: NO_TYPE, text: t('type-filter.none') },
     ...types.map((type) => ({ value: type, text: type })),
   ];
 

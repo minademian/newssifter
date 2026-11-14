@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { MatchesTypeSpecification } from '@newssifter/specifications';
 import { CopyButton } from '../CopyButton';
 import { SampleUrlButton } from '../SampleUrlButton';
@@ -28,9 +29,14 @@ type SourcesResponse = {
   sources: Source[];
 };
 
+type LoadError =
+  | { key: 'request-failed'; status: number }
+  | { key: 'load-error' };
+
 export function AdminData() {
+  const { t } = useTranslation();
   const [data, setData] = useState<SourcesResponse | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<LoadError | null>(null);
   const [query, setQuery] = useState('');
   const [activeType1, setActiveType1] = useState('');
   const [activeType2, setActiveType2] = useState('');
@@ -39,20 +45,18 @@ export function AdminData() {
     const controller = new AbortController();
 
     fetch('/api/sources', { signal: controller.signal })
-      .then((response) => {
+      .then(async (response) => {
         if (!response.ok) {
-          throw new Error(`The request failed with status ${response.status}.`);
+          setError({ key: 'request-failed', status: response.status });
+          return;
         }
-        return response.json() as Promise<SourcesResponse>;
+        setData((await response.json()) as SourcesResponse);
       })
-      .then(setData)
       .catch((err: unknown) => {
         if (err instanceof Error && err.name === 'AbortError') {
           return;
         }
-        setError(
-          err instanceof Error ? err.message : 'Could not load sources.'
-        );
+        setError({ key: 'load-error' });
       });
 
     return () => controller.abort();
@@ -85,43 +89,45 @@ export function AdminData() {
     <main className="app-shell">
       <div className="app-container">
         <header className="site-header">
-          <a className="brand" href="/" aria-label="News Sifter home">
+          <a className="brand" href="/" aria-label={t('admin.home-label')}>
             <img className="brand-banner" src="/banner.jpeg" alt="" />
           </a>
-          <BackLink href="/">Back to lookup</BackLink>
+          <BackLink href="/">{t('admin.back')}</BackLink>
         </header>
 
         <Page>
-          <Title>Source data</Title>
+          <Title>{t('admin.title')}</Title>
 
           {error && (
             <Status isError role="alert">
-              {error}
+              {error.key === 'request-failed'
+                ? t('admin.request-failed', { status: error.status })
+                : t('admin.load-error')}
             </Status>
           )}
-          {!data && !error && <Status>Loading sources...</Status>}
+          {!data && !error && <Status>{t('admin.loading')}</Status>}
 
           {data && (
             <>
               <Controls>
                 <label className="sr-only" htmlFor="admin-search">
-                  Search sources
+                  {t('admin.search-label')}
                 </label>
                 <Search
                   id="admin-search"
                   type="search"
-                  placeholder="Search by URL"
+                  placeholder={t('admin.search-placeholder')}
                   value={query}
                   onChange={(event) => setQuery(event.currentTarget.value)}
                 />
                 <TypeFilter
-                  label="Type"
+                  label={t('admin.columns.type')}
                   types={types1}
                   value={activeType1}
                   onChange={setActiveType1}
                 />
                 <TypeFilter
-                  label="2nd type"
+                  label={t('admin.columns.type2')}
                   types={types2}
                   value={activeType2}
                   onChange={setActiveType2}
@@ -129,16 +135,16 @@ export function AdminData() {
               </Controls>
 
               <Status aria-live="polite">
-                Showing {visible.length} of {data.total} sources
+                {t('admin.count', { shown: visible.length, total: data.total })}
               </Status>
 
               <TableWrap>
                 <Table>
                   <thead>
                     <tr>
-                      <th scope="col">URL</th>
-                      <th scope="col">Type</th>
-                      <th scope="col">2nd type</th>
+                      <th scope="col">{t('admin.columns.url')}</th>
+                      <th scope="col">{t('admin.columns.type')}</th>
+                      <th scope="col">{t('admin.columns.type2')}</th>
                     </tr>
                   </thead>
                   <tbody>

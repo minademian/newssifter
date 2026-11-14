@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { Check, FlaskConical, X } from 'lucide-react';
 import { generateSampleUrl } from '@newssifter/helpers';
 import { CopyState, useClipboard } from '@newssifter/hooks';
@@ -7,13 +8,14 @@ export interface SampleUrlButtonProps {
   source: string;
 }
 
-const TITLES: Record<CopyState, string> = {
-  idle: 'Generate a sample URL and copy it',
-  copied: 'Sample URL copied',
-  failed: 'Copy failed',
+const TITLE_KEYS: Record<CopyState, string> = {
+  idle: 'sample-url-button.generate',
+  copied: 'sample-url-button.copied',
+  failed: 'sample-url-button.failed',
 };
 
 export function SampleUrlButton({ source }: SampleUrlButtonProps) {
+  const { t } = useTranslation();
   const { state, copy } = useClipboard();
   const Icon =
     state === 'copied' ? Check : state === 'failed' ? X : FlaskConical;
@@ -21,13 +23,13 @@ export function SampleUrlButton({ source }: SampleUrlButtonProps) {
   return (
     <IconButton
       type="button"
-      aria-label={`Generate a sample URL for ${source} and copy it`}
-      title={TITLES[state]}
+      aria-label={t('sample-url-button.aria-label', { source })}
+      title={t(TITLE_KEYS[state])}
       onClick={() => void copy(generateSampleUrl(source))}
     >
       <Icon size={14} aria-hidden="true" />
       <span className="sr-only" role="status">
-        {state === 'idle' ? '' : TITLES[state]}
+        {state === 'idle' ? '' : t(TITLE_KEYS[state])}
       </span>
     </IconButton>
   );

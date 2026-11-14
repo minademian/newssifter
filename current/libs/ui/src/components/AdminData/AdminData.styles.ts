@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { theme } from '../theme';
+import { theme } from '../../lib/theme';
 
 export const Page = styled.section`
   flex: 1;

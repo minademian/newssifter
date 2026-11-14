@@ -1,32 +1,33 @@
+import { useTranslation } from 'react-i18next';
 import { Check, Copy, X } from 'lucide-react';
-import { IconButton } from '../IconButton';
 import { CopyState, useClipboard } from '@newssifter/hooks';
+import { IconButton } from '../IconButton';
 
 export interface CopyButtonProps {
   text: string;
-  label?: string;
 }
 
-const TITLES: Record<CopyState, string> = {
-  idle: 'Copy',
-  copied: 'Copied',
-  failed: 'Copy failed',
+const TITLE_KEYS: Record<CopyState, string> = {
+  idle: 'copy-button.copy',
+  copied: 'copy-button.copied',
+  failed: 'copy-button.failed',
 };
 
-export function CopyButton({ text, label = 'Copy' }: CopyButtonProps) {
+export function CopyButton({ text }: CopyButtonProps) {
+  const { t } = useTranslation();
   const { state, copy } = useClipboard();
   const Icon = state === 'copied' ? Check : state === 'failed' ? X : Copy;
 
   return (
     <IconButton
       type="button"
-      aria-label={`${label} ${text}`}
-      title={TITLES[state]}
+      aria-label={t('copy-button.aria-label', { text })}
+      title={t(TITLE_KEYS[state])}
       onClick={() => void copy(text)}
     >
       <Icon size={14} aria-hidden="true" />
       <span className="sr-only" role="status">
-        {state === 'idle' ? '' : TITLES[state]}
+        {state === 'idle' ? '' : t(TITLE_KEYS[state])}
       </span>
     </IconButton>
   );

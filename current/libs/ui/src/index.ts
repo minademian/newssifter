@@ -1,5 +1,4 @@
 export * from './lib/SubmitButton';
-export * from './lib/ui';
 export * from './lib/TextField';
 export * from './lib/Heading';
 export * from './lib/ChatBot';
@@ -8,4 +7,6 @@ export * from './lib/SourceNuance';
 export * from './lib/SourceNotice';
 export * from './lib/AdminData';
 export * from './lib/TypeFilter';
+export * from './lib/CopyButton';
+export * from './lib/SampleUrlButton';
 export * from './lib/HeroLayout';

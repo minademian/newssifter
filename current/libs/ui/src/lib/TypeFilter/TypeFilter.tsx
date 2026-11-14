@@ -1,4 +1,5 @@
 import { ALL_TYPES, NO_TYPE } from '@newssifter/specifications';
+import { Label, Option, Options, Row } from './TypeFilter.styles';
 
 export interface TypeFilterProps {
   label: string;
@@ -15,22 +16,21 @@ export function TypeFilter({ label, types, value, onChange }: TypeFilterProps) {
   ];
 
   return (
-    <div className="admin-filter-row">
-      <span className="admin-filter-label">{label}</span>
-      <div className="admin-filters" role="group" aria-label={label}>
+    <Row>
+      <Label>{label}</Label>
+      <Options role="group" aria-label={label}>
         {options.map((option) => (
-          <button
+          <Option
             key={option.value || 'all'}
             type="button"
-            className="admin-filter"
             aria-pressed={value === option.value}
             onClick={() => onChange(option.value)}
           >
             {option.text}
-          </button>
+          </Option>
         ))}
-      </div>
-    </div>
+      </Options>
+    </Row>
   );
 }
 

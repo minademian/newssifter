@@ -1,6 +1,20 @@
 import { useEffect, useMemo, useState } from 'react';
 import { MatchesTypeSpecification } from '@newssifter/specifications';
-import { TypeFilter } from './TypeFilter';
+import { CopyButton } from '../CopyButton';
+import { SampleUrlButton } from '../SampleUrlButton';
+import { TypeFilter } from '../TypeFilter';
+import {
+  BackLink,
+  Controls,
+  Page,
+  Search,
+  Status,
+  Table,
+  TableWrap,
+  Title,
+  UrlActions,
+  UrlCell,
+} from './AdminData.styles';
 
 type Source = {
   url: string;
@@ -74,32 +88,27 @@ export function AdminData() {
           <a className="brand" href="/" aria-label="News Sifter home">
             <img className="brand-banner" src="/banner.jpeg" alt="" />
           </a>
-          <a className="admin-back" href="/">
-            Back to lookup
-          </a>
+          <BackLink href="/">Back to lookup</BackLink>
         </header>
 
-        <section className="admin-page">
-          <h1>Source data</h1>
+        <Page>
+          <Title>Source data</Title>
 
           {error && (
-            <p className="admin-status admin-status--error" role="alert">
+            <Status isError role="alert">
               {error}
-            </p>
+            </Status>
           )}
-          {!data && !error && (
-            <p className="admin-status">Loading sources...</p>
-          )}
+          {!data && !error && <Status>Loading sources...</Status>}
 
           {data && (
             <>
-              <div className="admin-controls">
+              <Controls>
                 <label className="sr-only" htmlFor="admin-search">
                   Search sources
                 </label>
-                <input
+                <Search
                   id="admin-search"
-                  className="admin-search"
                   type="search"
                   placeholder="Search by URL"
                   value={query}
@@ -117,14 +126,14 @@ export function AdminData() {
                   value={activeType2}
                   onChange={setActiveType2}
                 />
-              </div>
+              </Controls>
 
-              <p className="admin-status" aria-live="polite">
+              <Status aria-live="polite">
                 Showing {visible.length} of {data.total} sources
-              </p>
+              </Status>
 
-              <div className="admin-table-wrap">
-                <table className="admin-table">
+              <TableWrap>
+                <Table>
                   <thead>
                     <tr>
                       <th scope="col">URL</th>
@@ -135,17 +144,25 @@ export function AdminData() {
                   <tbody>
                     {visible.map((source, index) => (
                       <tr key={`${source.url}-${index}`}>
-                        <td>{source.url}</td>
+                        <td>
+                          <UrlCell>
+                            <span>{source.url}</span>
+                            <UrlActions>
+                              <CopyButton text={source.url} />
+                              <SampleUrlButton source={source.url} />
+                            </UrlActions>
+                          </UrlCell>
+                        </td>
                         <td>{source.type1}</td>
                         <td>{source.type2}</td>
                       </tr>
                     ))}
                   </tbody>
-                </table>
-              </div>
+                </Table>
+              </TableWrap>
             </>
           )}
-        </section>
+        </Page>
       </div>
     </main>
   );

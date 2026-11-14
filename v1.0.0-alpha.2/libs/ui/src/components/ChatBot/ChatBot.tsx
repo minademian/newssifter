@@ -7,6 +7,7 @@ import {
 import {
   IsBiasSpecification,
   IsFakeSpecification,
+  IsHateSpecification
 } from '@newssifter/specifications';
 import { ArrowRightIcon } from '../ArrowRightIcon';
 import { Avatar } from '../Avatar';
@@ -25,7 +26,6 @@ import {
   Entry,
   EntryContent,
   Header,
-  Hint,
   Identity,
   InputRow,
   Ready,
@@ -40,6 +40,7 @@ import {
 
 const isBias = new IsBiasSpecification();
 const isFake = new IsFakeSpecification();
+const isHate = new IsHateSpecification();
 
 export function ChatBot() {
   const { t } = useTranslation();
@@ -68,7 +69,6 @@ export function ChatBot() {
             <Speaker>{t('chatbot.speaker-bot-now')}</Speaker>
             <Bubble sender="assistant">
               <p>{t('chatbot.cta-label')}</p>
-              <Hint>{t('chatbot.cta-hint')}</Hint>
             </Bubble>
           </EntryContent>
         </Entry>
@@ -91,6 +91,7 @@ export function ChatBot() {
                   </TypeRow>
                 )}
                 {isFake.isSatisfiedBy(message) && <SourceNotice type="fake" />}
+                {isHate.isSatisfiedBy(message) && <SourceNotice type="hate" />}
                 {isBias.isSatisfiedBy(message) && <SourceNuance />}
               </Bubble>
             </EntryContent>

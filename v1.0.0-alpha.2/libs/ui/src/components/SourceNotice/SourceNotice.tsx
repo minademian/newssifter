@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Body, Notice, Title } from './SourceNotice.styles';
 
-export type SourceNoticeType = 'fake';
+export type SourceNoticeType = 'fake' | 'hate';
 
 export interface SourceNoticeProps {
   type: SourceNoticeType;

@@ -98,8 +98,12 @@
     },
     "source-notice": {
       "fake": {
-        "title": "This is fake news",
+        "title": "This was coded originally as fake news",
         "body": "This source is known to publish fake news and disinformation. Do not rely on it, and do not share its content as fact."
+      },
+      "hate": {
+        "title": "This was coded originally as hate speech",
+        "body": "This source is known to publish hate speech. Do not rely on it, and do not share its content as fact."
       }
     },
     "source-nuance": {

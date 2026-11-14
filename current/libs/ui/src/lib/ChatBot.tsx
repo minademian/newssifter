@@ -102,7 +102,6 @@ export function ChatBot(props: ChatBotProps) {
           </span>
           <span>
             <span className="chat-title">{t('chatbot.app-title')}</span>
-            <span className="chat-subtitle">SOURCE LOOKUP ASSISTANT</span>
           </span>
         </div>
         <span className="chat-ready">

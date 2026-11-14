@@ -7,9 +7,9 @@
     },
     "chatbot": {
       "app-title": "News Sifter",
-      "cta-label": "Submit a link to start a conversation about this article!",
-      "cta-btn": "Tell Me!",
-      "cta-placeholder": "Your link..."
+      "cta-label": "Paste a source URL and I’ll check whether it appears in our database.",
+      "cta-btn": "Check source",
+      "cta-placeholder": "Paste a news source URL"
     }
   }
 }

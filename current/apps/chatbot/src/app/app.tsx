@@ -1,23 +1,36 @@
-import styled from 'styled-components';
-
 import 'the-new-css-reset/css/reset.css';
 import '../styles.scss';
 
-import { ChatBot } from '@newssifter/ui';
-
-const StyledApp = styled.div``;
+import { ChatBot, BottomHeroSection } from '@newssifter/ui';
 
 export function App() {
   return (
-    <StyledApp className="m-0 p-0 h-full">
-      <div className="container m-auto grid grid-cols-3 grid-rows-8 gap-4">
-        <div className="row-start-1 row-end-1 p-8"></div>
-        <div className="col-start-2 row-start-3 row-end-7 p-8">
-          <ChatBot></ChatBot>
-        </div>
-        <div className="row-start-7 row-end-8 p-8"></div>
+    <main className="app-shell">
+      <div className="app-container">
+        <header className="site-header">
+          <a className="brand" href="/" aria-label="News Sifter home">
+            <img className="brand-banner" src="/banner.jpeg" alt="" />
+          </a>
+        </header>
+
+        <section className="hero-layout">
+          <div className="hero-copy-heading">
+            <h1>
+              More fair,
+              <br />
+              <em>less partisan factchecking.</em>
+            </h1>
+          </div>
+          <ChatBot />
+          <BottomHeroSection />
+        </section>
+
+        <footer className="site-footer">
+          <span>Pause. Check. Think critically.</span>
+          <span>News Sifter · Source lookup</span>
+        </footer>
       </div>
-    </StyledApp>
+    </main>
   );
 }
 

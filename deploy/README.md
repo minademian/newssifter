@@ -20,6 +20,11 @@ The API bundle contains its dependencies (`externalDependencies: "none"` in the 
 `current/apps/api/project.json`), so the server needs no `node_modules` and no `pnpm`. The alpha API uses no Redis, no Google
 integration and writes nothing to disk.
 
+**No authentication.** `/admin/data` (the source table in the SPA) and `GET /api/sources` (the full source list) are served to
+anyone who can reach the site. They are not protected by nginx or by the API; the only limit is the API's rate limiter. The
+data is the same source list that `/api/lookup` exposes one record at a time. Add basic auth in nginx or an API check before
+putting anything private behind these paths.
+
 ## What goes where
 
 | Source in this repo | Destination on the server |

@@ -39,6 +39,7 @@
     "react-dom": "18.2.0",
     "react-i18next": "^14.0.0",
     "react-is": "18.2.0",
+    "react-router-dom": "6.28.0",
     "redis": "^4.6.12",
     "styled-components": "5.3.6",
     "supertest": "^6.3.3",

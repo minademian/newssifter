@@ -17,7 +17,7 @@
     "baseUrl": ".",
     "paths": {
       "@newssifter/locales": ["libs/locales/*"],
-      "@newssifter/services": ["libs/services/src/lib/*"],
+      "@newssifter/services/*": ["libs/services/src/lib/*"],
       "@newssifter/specifications": ["libs/specifications/src/index.ts"],
       "@newssifter/ui": ["libs/ui/src/index.ts"]
     }

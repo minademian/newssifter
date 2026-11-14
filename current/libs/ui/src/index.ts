@@ -3,4 +3,6 @@ export * from './lib/ui';
 export * from './lib/TextField';
 export * from './lib/Heading';
 export * from './lib/ChatBot';
-export * from './lib/BottomHeroSection'
+export * from './lib/BottomHeroSection';
+export * from './lib/SourceNuance';
+export * from './lib/SourceNotice';

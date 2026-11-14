@@ -1,5 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import {
+  IsBiasSpecification,
+  IsFakeSpecification,
+} from '@newssifter/specifications';
+import { SourceNuance } from './SourceNuance';
+import { SourceNotice } from './SourceNotice';
+
+const isBias = new IsBiasSpecification();
+const isFake = new IsFakeSpecification();
 
 /* eslint-disable-next-line */
 export interface ChatBotProps {}
@@ -167,8 +176,15 @@ export function ChatBot(props: ChatBotProps) {
               >
                 {message.text}
                 {message.type1 && (
-                  <span className="type-pill">{message.type1}</span>
+                  <div className="type-row">
+                    <span className="type-label">
+                      The original database marked this source as:
+                    </span>
+                    <span className="type-pill">{message.type1}</span>
+                  </div>
                 )}
+                {isFake.isSatisfiedBy(message) && <SourceNotice type="fake" />}
+                {isBias.isSatisfiedBy(message) && <SourceNuance />}
               </div>
             </div>
           </div>

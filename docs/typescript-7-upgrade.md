@@ -7,7 +7,7 @@ Started 2026-11-14. Source directory at the time of writing: `v1.0.0-alpha.2/`.
 | Step | What | Status |
 |---|---|---|
 | 1 | Make the tsconfigs valid for TypeScript 7 (they also work on 5.2 today) | Done. The `ts-jest` question it raised was settled by moving to Vitest. See [Step 1 log](#step-1-log) and [Vitest migration](#vitest-migration) |
-| 2 | Upgrade Nx, ts-jest and typescript-eslint to versions that support a newer TypeScript | Not started |
+| 2 | Upgrade Nx, ts-jest and typescript-eslint to versions that support a newer TypeScript | Not started. `ts-jest` is gone (Vitest) and `ts-loader` is gone (Vite). Linting moved to Oxlint, so `typescript-eslint` only remains for one rule. The Nx upgrade is still needed, and is also the prerequisite for adding `@nx/oxlint` |
 | 3 | Move to TypeScript 6 | Not started |
 | 4 | Add TypeScript 7 and keep TypeScript 6 installed as the fallback for tools that need the programmatic API | Not started |
 
@@ -26,7 +26,7 @@ TypeScript 7.0 does not ship a stable programmatic (JavaScript) API. Tools that 
 | Nx 17.2.8 | The main gate. | Nx's docs list 23.x as supporting `>= 5.8.0 < 7.1.0`. Nx 17's own range was not checked. |
 | API build and dev server (`nx build api`, `pnpm be`) | No longer affected (was: breaks). | It used `@nx/webpack` with `ts-loader` and `fork-ts-checker`, which need the programmatic API. It now builds with Vite (esbuild) and type-checks with the `tsc` command line. See [Vite build migration](#vite-build-migration). |
 | API tests | No longer affected (was: breaks). | They used `ts-jest 29.4.15`, which declares `typescript >=4.3 <7`. They now run on Vitest, which transpiles with esbuild and does not use the TypeScript API. |
-| Lint | Likely breaks. | `@typescript-eslint` 6.21, `ts-node` and `@nx/js` use the API. The lint config is not type-aware, which may soften this. |
+| Lint | Mostly no longer affected (was: likely breaks). | `lint` now runs Oxlint, which does not use the TypeScript API. `lint-boundaries` still runs ESLint with `@typescript-eslint/parser`, so that one target stays in scope. `ts-node` and `@nx/js` also use the API. See [Oxlint migration](#oxlint-migration). |
 | Chatbot | Mostly fine. | Vite and Vitest do not compile with `tsc`. `nx build chatbot` does run a type-check pass through the Nx plugin. |
 | UI tests (Babel) | Unaffected. | They do not use the TypeScript compiler. |
 
@@ -124,6 +124,28 @@ Checked with the cache off:
 - The `nodemon` dev server rebuilt itself on the new build and kept working, with the chatbot's proxy still reaching it.
 
 Not done: `deploy/deploy.sh` was not re-run end to end with the new build. It only needs `dist/apps/api/main.js` and `dist/apps/chatbot/index.html`, which both exist.
+
+## Oxlint migration
+
+Done 2026-11-14: linting moved from ESLint (`@nx/eslint:lint`) to Oxlint 1.93.0, installed as a dev dependency with an exact version. `@nx/oxlint` was **not** added: its first release is 23.2.0 and it depends on `@nx/js`, `@nx/devkit` and `@nx/eslint-plugin` at the same version, so it cannot be installed on Nx 17.2.8. Add it after the Nx upgrade. `@nx/js` is not a linter and cannot be removed: `@nx/oxlint`, `@nx/vite` and `@nx/react` all depend on it.
+
+- `.oxlintrc.json` at the repo root: correctness rules plus the `typescript`, `react`, `jsx-a11y` and `import` plugins, set up to match what the old Nx presets enforced.
+  - `prefer-const` and `react/rules-of-hooks` are on as errors; `react/exhaustive-deps` and `jsx-a11y/anchor-has-content` are warnings; `no-unused-vars` ignores rest siblings. These are the rules that were enforced before. `react/rules-of-hooks` is not in Oxlint's default set, so it had to be enabled explicitly.
+  - Two Oxlint rules the old setup never had, `jsx-a11y/prefer-tag-over-role` and `jsx-a11y/control-has-associated-label`, are off. Turn them on if you want the stricter checks.
+- Each of the five projects (`api`, `chatbot`, `ui`, `api-e2e`, `chatbot-e2e`) now has `lint` running `oxlint -c .oxlintrc.json {projectRoot}`.
+- The old ESLint run moved to a `lint-boundaries` target in each project. ESLint now has exactly one active rule, `@nx/enforce-module-boundaries`, because Oxlint has no equivalent. The root `.eslintrc.json` sets `@typescript-eslint/parser` itself (the `@nx/typescript` preset used to), and the `@nx/react` preset was removed from the chatbot and ui configs. `apps/chatbot-e2e` still also extends `plugin:playwright/recommended`, since Oxlint has no Playwright plugin.
+
+Checked with the cache off:
+
+- Findings match the old ESLint run exactly. `api`: 6 errors (unused imports and variables, and a `prefer-const`, in `lookup.it.ts` and `lookup.spec.ts`). `ui`: 1 error (`StoryObj` unused) and 2 `anchor-has-content` warnings. The other three projects are clean. These findings existed before and were not fixed.
+- `lint-boundaries` passes in all five projects. The rule was checked for real: a relative import across projects is reported as an error, and an alias import is not.
+- `hooks`, `helpers`, `specifications` and `services` have no lint target. Oxlint was run on them directly and found nothing.
+
+Things to decide or watch:
+
+- `lint-boundaries` is not part of any script or of `.github/workflows/ci.yml`, so nothing runs it automatically. `nx affected -t lint` now runs Oxlint only. The rule is also nearly a no-op in practice, because the dependency constraint is `*` to `*`; it still catches relative cross-project imports and circular dependencies.
+- ESLint packages no longer referenced by any config, and so candidates for removal: `eslint-plugin-react`, `eslint-plugin-react-hooks`, `eslint-plugin-jsx-a11y`, `eslint-plugin-import` and `eslint-config-prettier`. They were not removed. `eslint-plugin-playwright`, `eslint`, `@nx/eslint`, `@nx/eslint-plugin` and `@typescript-eslint/parser` are still used.
+- Oxlint is a newer tool with a different rule set. It was matched to the old results on this codebase, but it is not rule-for-rule identical to typescript-eslint.
 
 ### Leftovers to delete by hand
 

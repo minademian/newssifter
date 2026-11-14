@@ -9,6 +9,7 @@ import '@newssifter/services/i18n.browser.service';
 import { AdminDataPage } from './AdminData';
 import { AppPage } from './App';
 import { ChatPage } from './Chat';
+import { ErrorPage } from './ErrorPage';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -20,7 +21,8 @@ root.render(
       <Routes>
         <Route path="/admin/data" element={<AdminDataPage />} />
         <Route path="/chat" element={<ChatPage />} />
-        <Route path="*" element={<AppPage />} />
+        <Route path="/" element={<AppPage />} />
+        <Route path="*" element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>

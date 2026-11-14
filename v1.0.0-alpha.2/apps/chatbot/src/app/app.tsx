@@ -33,7 +33,11 @@ export function AppPage() {
 
   return (
     <AppShell
-      headerActions={<LayoutToggle value={layout} onChange={changeLayout} />}
+      headerActions={
+        import.meta.env.DEV ? (
+          <LayoutToggle value={layout} onChange={changeLayout} />
+        ) : undefined
+      }
       footer={<SiteFooter />}
     >
       <HeroLayout variant={layout} />

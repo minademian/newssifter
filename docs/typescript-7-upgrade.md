@@ -62,6 +62,7 @@ These were not confirmed against the official release notes:
 
 - Nx caches builds and Vitest runs. `nx.json` has `sharedGlobals: []`, so a change to the root `tsconfig.base.json` may not invalidate the cache. Pass `--skip-nx-cache` when checking a tsconfig change.
 - Nx exits with code 1 whenever its Nx Cloud warning appears, even if the target passed. Judge a run by the `Successfully ran target` line, not the exit code.
+- `(node) [DEP0060] DeprecationWarning: The util._extend API is deprecated` printed when Nx runs a task is not from this repo's code. It comes from `strong-log-transformer@2.1.0`, which Nx 17.2.8's task runner uses to capture task output. That package is abandoned (2.1.0 is the latest and still calls `util._extend`), and Nx no longer depends on it by 20.x. It is harmless and goes away with the Nx upgrade in step 2. Decided 2026-11-14 to leave it until then.
 - `@nx/vite:test` resolves a `globalSetup` path from the workspace root, so use an absolute path in `vite.config.ts`.
 - The correct TypeScript project configs to check are `libs/ui/tsconfig.lib.json` and `apps/*/tsconfig.app.json`. `libs/tsconfig.lib.json` includes `src/**` relative to `libs/`, so it matches no files and passes vacuously.
 

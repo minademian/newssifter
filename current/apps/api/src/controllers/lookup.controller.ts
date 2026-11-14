@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { getDomain } from 'tldts';
-import sourceData from '../__tests__/data_2.json';
+import { HasTypeSpecification } from '@newssifter/specifications';
+import sourceData from '../assets/data_2.json';
 
 type SourceRecord = {
   url: string;
@@ -8,7 +9,9 @@ type SourceRecord = {
   type2?: string;
 };
 
-export const ExtractDomainName = (fullUrl: string) => getDomain(fullUrl);
+const hasType = new HasTypeSpecification();
+
+export const ExtractDomainName =(fullUrl: string) => getDomain(fullUrl);
 
 const sourceRecords: SourceRecord[] = sourceData.filter(
   (record) => record.url.toLowerCase() !== 'url'
@@ -50,5 +53,8 @@ export const Lookup = async (req: Request, res: Response) => {
     return res.status(404).json({ error: 'No source found', url: value });
   }
 
-  return res.status(200).json(record);
+  return res.status(200).json({
+    ...record,
+    type1: hasType.isSatisfiedBy(record) ? record.type1?.trim() : undefined,
+  });
 };

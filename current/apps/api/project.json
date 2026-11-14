@@ -19,7 +19,9 @@
       },
       "configurations": {
         "development": {},
-        "production": {}
+        "production": {
+          "externalDependencies": "none"
+        }
       }
     },
     "serve": {

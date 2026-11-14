@@ -8,6 +8,7 @@ type ChatMessage = {
   sender: 'user' | 'assistant';
   text: string;
   isError?: boolean;
+  type1?: string;
 };
 
 export function ChatBot(props: ChatBotProps) {
@@ -50,10 +51,14 @@ export function ChatBot(props: ChatBotProps) {
       (error: unknown) => ({ error })
     );
 
-    const addAssistantMessage = (text: string, isError = false) => {
+    const addAssistantMessage = (
+      text: string,
+      isError = false,
+      type1?: string
+    ) => {
       setMessages((current) => [
         ...current,
-        { sender: 'assistant', text, isError },
+        { sender: 'assistant', text, isError, type1 },
       ]);
     };
 
@@ -65,7 +70,14 @@ export function ChatBot(props: ChatBotProps) {
       }
 
       if (result.response.status === 200) {
-        addAssistantMessage('Yes, this source is in the database.');
+        const body: { type1?: string } | null = await result.response
+          .json()
+          .catch(() => null);
+        addAssistantMessage(
+          'Yes, this source is in the database.',
+          false,
+          body?.type1
+        );
       } else if (result.response.status === 404) {
         addAssistantMessage(
           "Sorry, I couldn't find this source in our database."
@@ -154,6 +166,9 @@ export function ChatBot(props: ChatBotProps) {
                 } ${message.isError ? 'chat-bubble--error' : ''}`}
               >
                 {message.text}
+                {message.type1 && (
+                  <span className="type-pill">{message.type1}</span>
+                )}
               </div>
             </div>
           </div>

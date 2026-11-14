@@ -12,7 +12,7 @@ describe('SiteFooter', () => {
       screen
         .getByRole('link', { name: 'Ursine Enterprises' })
         .getAttribute('href')
-    ).toBe('https://ursine.enterprises/');
+    ).toBe('https://ursinenterprises.com/');
     expect(document.body.textContent).toContain(
       '© 2026 Newssifter. All rights reserved by Ursine Enterprises.'
     );

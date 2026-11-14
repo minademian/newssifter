@@ -56,7 +56,7 @@ describe('ui strings come from en_US.json', () => {
       </>
     );
 
-    expect(screen.getByText('This is fake news')).toBeTruthy();
+    expect(screen.getByText('This was coded originally as fake news')).toBeTruthy();
     expect(screen.getByText('Add some nuance')).toBeTruthy();
     expect(screen.getByText(/Placeholder: additional context/)).toBeTruthy();
   });

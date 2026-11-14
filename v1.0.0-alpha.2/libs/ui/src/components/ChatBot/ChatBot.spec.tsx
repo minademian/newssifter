@@ -71,7 +71,7 @@ describe('ChatBot', () => {
       { timeout: 3000 }
     );
     expect(screen.getByText('fake')).toBeTruthy();
-    expect(screen.getByText('This is fake news')).toBeTruthy();
+    expect(screen.getByText('This was coded originally as fake news')).toBeTruthy();
   });
 
   it('re-translates messages already on screen when the language changes', async () => {

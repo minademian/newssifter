@@ -1,5 +1,6 @@
 import type { Meta, StoryObj, StoryFn } from '@storybook/react';
-import { SubmitButton, SubmitButtonProps, styles } from './SubmitButton';
+import { SubmitButton, SubmitButtonProps } from './SubmitButton';
+import { styles } from './SubmitButton.styles';
 
 export default {
   component: SubmitButton,

@@ -89,7 +89,7 @@ export function AdminData() {
     <main className="app-shell">
       <div className="app-container">
         <header className="site-header">
-          <a className="brand" href="/" aria-label={t('admin.home-label')}>
+          <a className="brand" href="/" aria-label={t('site.home-label')}>
             <img className="brand-banner" src="/banner.jpeg" alt="" />
           </a>
           <BackLink href="/">{t('admin.back')}</BackLink>

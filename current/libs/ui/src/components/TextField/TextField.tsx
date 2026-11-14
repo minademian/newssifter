@@ -1,16 +1,9 @@
-import styled from 'styled-components';
 import { useTranslation } from 'react-i18next';
+import { StyledInput, StyledTextField } from './TextField.styles';
 
 export interface TextFieldProps {
   label: string;
 }
-
-const StyledTextField = styled.div``;
-
-const StyledInput = styled.input`
-  background-color: white;
-  border: 1px solid #ccc;
-`;
 
 export function TextField(props: TextFieldProps) {
   const { label } = props;

@@ -1,12 +1,8 @@
-import styled from 'styled-components';
+import { StyledHeading } from './Heading.styles';
 
 export interface HeadingProps {
   label: string;
 }
-
-const StyledHeading = styled.div`
-  color: blue;
-`;
 
 export function Heading(props: HeadingProps) {
   const { label } = props;

@@ -1,14 +1,15 @@
 #!/usr/bin/env bash
 # Production (Fedora droplet): build and deploy Newssifter as a versioned release.
-# Builds the api and chatbot apps, packs them into one tarball, uploads it, unpacks it into
+# Builds the api and chatbot apps from the v<version> directory at the repo root, packs them
+# into one tarball, uploads it, unpacks it into
 # /var/www/newssifter/releases/<version>, repoints /var/www/newssifter/current and restarts
 # newssifter-api. If the health check fails it points "current" back at the previous release.
 # Default is dry-run (builds and packs locally, reads from the server, changes nothing there).
 # --apply requires typing PRODUCTION. Does not do first-time server setup: see deploy/README.md.
 #
 # Usage:
-#   ./deploy/deploy.sh --version 1.0.0-alpha.1            # dry-run
-#   ./deploy/deploy.sh --version 1.0.0-alpha.1 --apply
+#   ./deploy/deploy.sh --version 1.0.0-alpha.2            # dry-run
+#   ./deploy/deploy.sh --version 1.0.0-alpha.2 --apply
 #
 set -euo pipefail
 
@@ -50,8 +51,10 @@ while [[ $# -gt 0 ]]; do
 done
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-WORKSPACE_DIR="$(cd "${SCRIPT_DIR}/../current" && pwd)"
-RELEASE_DIR="${WORKSPACE_DIR}/dist/release"
+REPO_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
+# Set by resolve_workspace once --version is known.
+WORKSPACE_DIR=""
+RELEASE_DIR=""
 
 SSH_OPTS=(-i "${SSH_KEY}" -o IdentitiesOnly=yes -o BatchMode=yes -o ConnectTimeout=15 -o ConnectionAttempts=3)
 
@@ -90,13 +93,20 @@ confirm_production() {
 }
 
 validate_version() {
-  [[ -n "${VERSION}" ]] || die "--version is required (e.g. --version 1.0.0-alpha.1)"
+  [[ -n "${VERSION}" ]] || die "--version is required (e.g. --version 1.0.0-alpha.2)"
   [[ "${VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]] \
     || die "Version '${VERSION}' must look like X.Y.Z or X.Y.Z-label"
 }
 
+# Each version is built from its own source directory, v<version> at the repo root.
+resolve_workspace() {
+  WORKSPACE_DIR="${REPO_DIR}/v${VERSION}"
+  [[ -d "${WORKSPACE_DIR}" ]] || die "No source directory ${WORKSPACE_DIR} for version ${VERSION}"
+  RELEASE_DIR="${WORKSPACE_DIR}/dist/release"
+}
+
 build_and_pack() {
-  info "==> Building api and chatbot (production)"
+  info "==> Building api and chatbot (production) from v${VERSION}"
   (cd "${WORKSPACE_DIR}" && npx nx build api --configuration=production)
   (cd "${WORKSPACE_DIR}" && npx nx build chatbot --configuration=production --emptyOutDir)
 
@@ -206,6 +216,7 @@ REMOTE
 }
 
 validate_version
+resolve_workspace
 if [[ "${APPLY}" == true ]]; then
   placeholders_set && die "Set DEPLOY_SSH_TARGET and DEPLOY_SSH_KEY (or edit the top of this script) before --apply."
 fi

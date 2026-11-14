@@ -17,7 +17,7 @@ browser --443--> nginx --/api--> 127.0.0.1:3000  newssifter-api.service (node ma
 ```
 
 The API bundle contains its dependencies (`externalDependencies: "none"` in the `production` configuration of
-`current/apps/api/project.json`), so the server needs no `node_modules` and no `pnpm`. The alpha API uses no Redis, no Google
+`apps/api/project.json` of the version's source directory), so the server needs no `node_modules` and no `pnpm`. The alpha API uses no Redis, no Google
 integration and writes nothing to disk.
 
 **No authentication.** `/admin/data` (the source table in the SPA) and `GET /api/sources` (the full source list) are served to
@@ -122,11 +122,12 @@ export DEPLOY_SSH_KEY=~/.ssh/YOUR_KEY
 ```
 
 ```sh
-./deploy/deploy.sh --version 1.0.0-alpha.1            # dry run
-./deploy/deploy.sh --version 1.0.0-alpha.1 --apply    # asks you to type PRODUCTION
+./deploy/deploy.sh --version 1.0.0-alpha.2            # dry run
+./deploy/deploy.sh --version 1.0.0-alpha.2 --apply    # asks you to type PRODUCTION
 ```
 
-The dry run builds both apps, packs `current/dist/release/newssifter-<version>.tar.gz`, checks the server read-only (setup
+`--version X` builds from the `vX` directory at the repo root (`--version 1.0.0-alpha.2` uses `v1.0.0-alpha.2/`) and
+refuses if that directory does not exist. The dry run builds both apps, packs `v<version>/dist/release/newssifter-<version>.tar.gz`, checks the server read-only (setup
 present, version not already released, current release) and lists the releases that would be pruned. `--apply` uploads, unpacks
 into `releases/<version>`, swaps `current`, restarts `newssifter-api` and requests `http://127.0.0.1:3000/api` on the server. If that
 fails ten times it points `current` back at the previous release and restarts. The newest 5 releases are kept; older ones are

@@ -1,0 +1,44 @@
+# Newssifter API (Node/Express), production.
+#   install as /etc/systemd/system/newssifter-api.service
+#   then:      systemctl daemon-reload && systemctl enable --now newssifter-api
+#
+# Code is read-only for the service user: /var/www/newssifter/current is a symlink to the active release.
+# Secrets, when there are any, go in /etc/newssifter/api.env (root:newssifter, 0640), outside the repo and
+# the release. The file is optional ("-"): the alpha API reads no secrets.
+# PORT is fixed here and must not be set in api.env; nginx proxies to it.
+
+[Unit]
+Description=Newssifter API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=newssifter
+Group=newssifter
+WorkingDirectory=/var/www/newssifter/current/api
+Environment=NODE_ENV=production
+Environment=PORT=3000
+EnvironmentFile=-/etc/newssifter/api.env
+ExecStart=/usr/bin/node main.js
+Restart=on-failure
+RestartSec=3
+
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+CapabilityBoundingSet=
+RestrictAddressFamilies=AF_INET AF_INET6 AF_UNIX
+LockPersonality=true
+RestrictRealtime=true
+SystemCallArchitectures=native
+# MemoryDenyWriteExecute is deliberately not set: V8's JIT needs writable+executable memory.
+
+[Install]
+WantedBy=multi-user.target

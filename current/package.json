@@ -1,12 +1,11 @@
 {
   "name": "@newssifter/source",
   "version": "0.0.0",
-  "license": "MIT",
   "scripts": {
     "prepare": "cd .. && husky install",
     "test": "npx nx affected -t test && npx nx affected -t component-test",
     "test:watch": "npx nx affected:test --all --parallel --maxParallel 10 --watch",
-    "dev": "nx run-many --parallel --target=serve --projects=chatbot,api",
+    "dev": "nx run-many --parallel --target=serve --all",
     "test:chatbot:e2e": "nx e2e chatbot-e2e --ui",
     "fe": "nx serve chatbot",
     "be": "nx serve api"
@@ -112,6 +111,7 @@
     "jest-environment-node": "^29.4.1",
     "jsdom": "~22.1.0",
     "lint-staged": "^15.2.0",
+    "nodemon": "^3.1.14",
     "nx": "17.2.8",
     "postcss": "8.4.21",
     "prettier": "^2.6.2",

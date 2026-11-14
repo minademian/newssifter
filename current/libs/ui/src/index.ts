@@ -6,3 +6,6 @@ export * from './lib/ChatBot';
 export * from './lib/BottomHeroSection';
 export * from './lib/SourceNuance';
 export * from './lib/SourceNotice';
+export * from './lib/AdminData';
+export * from './lib/TypeFilter';
+export * from './lib/HeroLayout';

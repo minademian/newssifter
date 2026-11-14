@@ -12,7 +12,9 @@
         "target": "node",
         "compiler": "tsc",
         "outputPath": "dist/libs/services",
+        "main": "libs/services/src/index.ts",
         "tsConfig": "libs/services/tsconfig.lib.json",
+        "webpackConfig": "libs/services/webpack.config.js",
         "assets": []
       },
       "configurations": {

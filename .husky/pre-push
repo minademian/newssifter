@@ -1,4 +1,19 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npx nx affected -t test && npx nx affected -t component-test
+# Run the affected tests from the workspace directory that holds nx.json (its name
+# changes per version, so it is found, not hardcoded).
+# The binary is called directly: `npx` can download a package, which a hook must not do.
+repo_root="$(git rev-parse --show-toplevel)"
+
+for config in "$repo_root"/*/nx.json; do
+  [ -f "$config" ] || continue
+  workspace="$(dirname "$config")"
+
+  if [ ! -x "$workspace/node_modules/.bin/nx" ]; then
+    echo "pre-push: nx is not installed in $workspace. Run pnpm install there." >&2
+    exit 1
+  fi
+
+  (cd "$workspace" && ./node_modules/.bin/nx affected -t test && ./node_modules/.bin/nx affected -t component-test) || exit 1
+done

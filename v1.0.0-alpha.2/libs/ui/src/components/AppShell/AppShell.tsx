@@ -6,13 +6,13 @@ import {
   BrandBanner,
   Container,
   Header,
+  Nav,
+  NavLink,
   Shell,
 } from './AppShell.styles';
 
 export interface AppShellProps {
-  /** Page-specific controls shown at the right of the header. */
   headerActions?: ReactNode;
-  /** Optional footer, shown below the page content. */
   footer?: ReactNode;
   children: ReactNode;
 }
@@ -27,6 +27,10 @@ export function AppShell({ headerActions, footer, children }: AppShellProps) {
           <Brand href="/" aria-label={t('site.home-label')}>
             <BrandBanner src="/banner.jpeg" alt="" />
           </Brand>
+          <Nav>
+            <NavLink href="/chat">{t('site.chat-now')}</NavLink>
+            <NavLink href="/contact">{t('site.contact')}</NavLink>
+          </Nav>
           <Actions>{headerActions}</Actions>
         </Header>
 

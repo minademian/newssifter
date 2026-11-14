@@ -33,8 +33,8 @@ export const Container = styled.div`
   }
 `;
 
-// Three columns with equal outer ones, so the banner sits in the true middle whatever
-// the width of the page controls on the right. On narrow screens they stack instead.
+// Banner at the start, page links in the middle, page controls at the end.
+// On narrow screens they stack from the start.
 export const Header = styled.header`
   min-height: 92px;
   display: grid;
@@ -45,7 +45,7 @@ export const Header = styled.header`
   @media (max-width: 520px) {
     min-height: 72px;
     grid-template-columns: 1fr;
-    justify-items: center;
+    justify-items: start;
     row-gap: 4px;
     padding-bottom: 8px;
   }
@@ -57,12 +57,42 @@ export const Actions = styled.div`
 
   @media (max-width: 520px) {
     grid-column: 1;
-    justify-self: center;
+    justify-self: start;
+  }
+`;
+
+export const Nav = styled.nav`
+  grid-column: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+
+  @media (max-width: 520px) {
+    grid-column: 1;
+    justify-self: start;
+  }
+`;
+
+export const NavLink = styled.a`
+  color: ${theme.colors.ink};
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+
+  &:focus-visible {
+    outline: 2px solid ${theme.colors.blue};
+    outline-offset: 2px;
   }
 `;
 
 export const Brand = styled.a`
-  grid-column: 2;
+  grid-column: 1;
+  justify-self: start;
   display: inline-flex;
   align-items: center;
   text-decoration: none;

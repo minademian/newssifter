@@ -7,6 +7,7 @@
     },
     "chatbot": {
       "app-title": "News Sifter",
+      "welcome": "Welcome to News Sifter",
       "cta-label": "Paste a source URL and I'll check whether it appears in our database.",
       "cta-btn": "Check source",
       "cta-placeholder": "Paste a news source URL",
@@ -61,8 +62,15 @@
     },
     "site": {
       "home-label": "News Sifter home",
+      "chat-now": "Chat Now",
+      "contact": "Contact",
       "footer-tagline": "Pause. Check. Think critically.",
       "footer-rights": "© 2026 Newssifter. All rights reserved by <company>Ursine Enterprises</company>."
+    },
+    "error": {
+      "title": "Page not found",
+      "body": "We do sift through news sources, but we can't create <i>ex nihilo</i>. Sorry.",
+      "home": "Back home"
     },
     "hero": {
       "heading-line1": "More fair,",

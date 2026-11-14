@@ -15,12 +15,14 @@ describe('AppShell', () => {
     );
 
     expect(screen.getByRole('link', { name: 'News Sifter home' })).toBeTruthy();
+    expect(screen.getByRole('link', { name: 'Chat Now' })).toBeTruthy();
+    expect(screen.getByRole('link', { name: 'Contact' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Header action' })).toBeTruthy();
     expect(screen.getByText('Page content')).toBeTruthy();
     expect(screen.getByText('Footer content')).toBeTruthy();
   });
 
-  it('puts the banner in the middle column and the actions in the last one', () => {
+  it('puts the banner at the start, the links in the middle, and the actions at the end', () => {
     render(
       <AppShell headerActions={<button type="button">Header action</button>}>
         <p>Page content</p>
@@ -28,19 +30,21 @@ describe('AppShell', () => {
     );
 
     const brand = screen.getByRole('link', { name: 'News Sifter home' });
+    const nav = screen.getByRole('navigation');
     const header = brand.parentElement as HTMLElement;
     const actions = screen.getByRole('button', { name: 'Header action' })
       .parentElement as HTMLElement;
 
-    // equal outer columns keep the banner centred whatever the actions' width
     expect(getComputedStyle(header).display).toBe('grid');
     expect(getComputedStyle(header).gridTemplateColumns).toBe('1fr auto 1fr');
-    expect(getComputedStyle(brand).gridColumn).toBe('2');
+    expect(getComputedStyle(brand).gridColumn).toBe('1');
+    expect(getComputedStyle(brand).justifySelf).toBe('start');
+    expect(getComputedStyle(nav).gridColumn).toBe('2');
     expect(getComputedStyle(actions).gridColumn).toBe('3');
     expect(getComputedStyle(actions).justifySelf).toBe('end');
   });
 
-  it('keeps the banner centred when there are no actions', () => {
+  it('keeps the banner at the start when there are no actions', () => {
     render(
       <AppShell>
         <p>Page content</p>
@@ -48,8 +52,8 @@ describe('AppShell', () => {
     );
 
     const brand = screen.getByRole('link', { name: 'News Sifter home' });
-    expect(getComputedStyle(brand).gridColumn).toBe('2');
-    expect(brand.nextElementSibling).not.toBeNull();
+    expect(getComputedStyle(brand).gridColumn).toBe('1');
+    expect(getComputedStyle(brand).justifySelf).toBe('start');
   });
 
   it('has no footer unless one is given', () => {

@@ -12,6 +12,12 @@
       }
     },
     "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "oxlint -c .oxlintrc.json {projectRoot}"
+      }
+    },
+    "lint-boundaries": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     }

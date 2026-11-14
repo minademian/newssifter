@@ -5,23 +5,23 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nx/webpack:webpack",
+      "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
+      "dependsOn": ["^build", "typecheck"],
       "options": {
-        "target": "node",
-        "compiler": "tsc",
         "outputPath": "dist/apps/api",
-        "main": "apps/api/src/main.ts",
-        "tsConfig": "apps/api/tsconfig.app.json",
-        "assets": ["apps/api/src/assets"],
-        "webpackConfig": "apps/api/webpack.config.js"
+        "skipTypeCheck": true
       },
       "configurations": {
         "development": {},
-        "production": {
-          "externalDependencies": "none"
-        }
+        "production": {}
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc --noEmit -p apps/api/tsconfig.app.json"
       }
     },
     "serve": {
@@ -38,14 +38,20 @@
       }
     },
     "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "oxlint -c .oxlintrc.json {projectRoot}"
+      }
+    },
+    "lint-boundaries": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     },
     "test": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "jestConfig": "apps/api/jest.config.ts"
+        "reportsDirectory": "../../coverage/apps/api"
       }
     },
     "deploy": {

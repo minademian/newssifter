@@ -5,21 +5,23 @@
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nx/webpack:webpack",
+      "executor": "@nx/vite:build",
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
+      "dependsOn": ["^build", "typecheck"],
       "options": {
-        "target": "node",
-        "compiler": "tsc",
         "outputPath": "dist/libs/services",
-        "main": "libs/services/index.ts",
-        "tsConfig": "libs/services/tsconfig.lib.json",
-        "webpackConfig": "libs/services/webpack.config.js",
-        "assets": []
+        "skipTypeCheck": true
       },
       "configurations": {
         "development": {},
         "production": {}
+      }
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc --noEmit -p libs/services/tsconfig.lib.json"
       }
     }
   }

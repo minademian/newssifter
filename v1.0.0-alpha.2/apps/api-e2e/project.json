@@ -5,14 +5,19 @@
   "projectType": "application",
   "targets": {
     "e2e": {
-      "executor": "@nx/jest:jest",
-      "outputs": ["{workspaceRoot}/coverage/{e2eProjectRoot}"],
+      "executor": "@nx/vite:test",
+      "outputs": ["{options.reportsDirectory}"],
       "options": {
-        "jestConfig": "apps/api-e2e/jest.config.ts",
-        "passWithNoTests": true
+        "reportsDirectory": "../../coverage/apps/api-e2e"
       }
     },
     "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "oxlint -c .oxlintrc.json {projectRoot}"
+      }
+    },
+    "lint-boundaries": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
     }

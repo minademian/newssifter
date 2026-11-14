@@ -16,9 +16,9 @@ browser --443--> nginx --/api--> 127.0.0.1:3000  newssifter-api.service (node ma
 /var/www/newssifter/current -> releases/<version>        the symlink deploy.sh swaps
 ```
 
-The API bundle contains its dependencies (`externalDependencies: "none"` in the `production` configuration of
-`apps/api/project.json` of the version's source directory), so the server needs no `node_modules` and no `pnpm`. The alpha API uses no Redis, no Google
-integration and writes nothing to disk.
+The API bundle contains its dependencies (the Vite build in `apps/api/vite.config.ts` of the version's source directory bundles
+every dependency for the `production` configuration), so the server needs no `node_modules` and no `pnpm`. The alpha API uses no
+Redis, no Google integration and writes nothing to disk. The bundle's `assets/` folder is served at `/assets`, so it ships next to `main.js`.
 
 **No authentication.** `/admin/data` (the source table in the SPA) and `GET /api/sources` (the full source list) are served to
 anyone who can reach the site. They are not protected by nginx or by the API; the only limit is the API's rate limiter. The

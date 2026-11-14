@@ -27,7 +27,7 @@ export function App() {
 
         <footer className="site-footer">
           <span>Pause. Check. Think critically.</span>
-          <span>News Sifter · Source lookup</span>
+          <span>&copy; 2026 Newssifter. All rights reserved by <a href="https://ursine.enterprises/">Ursine Enterprises</a>.</span>
         </footer>
       </div>
     </main>

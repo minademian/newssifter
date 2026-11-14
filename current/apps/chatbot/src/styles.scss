@@ -340,6 +340,7 @@ input {
   width: 6px;
   height: 6px;
   background: var(--blue);
+  animation: ready-pulse 1.8s ease-in-out infinite;
 }
 
 .chat-conversation {
@@ -575,6 +576,18 @@ input {
   30% {
     transform: translateY(-3px);
     opacity: 1;
+  }
+}
+
+@keyframes ready-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 3px rgba(52, 166, 255, 0.15);
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(52, 166, 255, 0.04);
+    opacity: 0.75;
   }
 }
 

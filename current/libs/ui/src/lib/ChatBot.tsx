@@ -65,10 +65,10 @@ export function ChatBot(props: ChatBotProps) {
       }
 
       if (result.response.status === 200) {
-        addAssistantMessage('yes this was found');
+        addAssistantMessage('Yes, this source is in the database.');
       } else if (result.response.status === 404) {
         addAssistantMessage(
-          'sorry couldnt find this source in our database'
+          "Sorry, I couldn't find this source in our database."
         );
       } else if (result.response.status === 500) {
         addAssistantMessage(

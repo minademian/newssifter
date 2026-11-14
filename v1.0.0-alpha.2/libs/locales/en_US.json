@@ -66,7 +66,8 @@
     },
     "hero": {
       "heading-line1": "More fair,",
-      "heading-line2": "less partisan factchecking."
+      "heading-line2": "less partisan factchecking.",
+      "how-it-works": "How does Newssifter work?"
     },
     "layout": {
       "label": "Page layout",

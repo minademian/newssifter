@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { theme } from '../../lib/theme';
 
-const SLIDE_MS = 250;
+export const SLIDE_MS = 250;
 
 export const Root = styled.div`
   width: 100%;
@@ -20,15 +20,15 @@ export const Trigger = styled.button`
   width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  justify-content: center;
+  gap: 10px;
   padding: 16px 20px;
   border: 0;
   color: ${theme.colors.ink};
   background: ${theme.colors.surface};
   font-size: 15px;
   font-weight: 700;
-  text-align: left;
+  text-align: center;
   cursor: pointer;
 
   &:hover {

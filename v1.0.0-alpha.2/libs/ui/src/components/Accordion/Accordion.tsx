@@ -1,11 +1,13 @@
 import { ReactNode, useId, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { useKeepInViewWhileOpening } from '@newssifter/hooks';
 import {
   Heading,
   Panel,
   PanelClip,
   PanelContent,
   Root,
+  SLIDE_MS,
   Trigger,
 } from './Accordion.styles';
 
@@ -25,9 +27,10 @@ export function Accordion({
   const triggerId = `${id}-trigger`;
   const panelId = `${id}-panel`;
   const Chevron = isOpen ? ChevronUp : ChevronDown;
+  const rootRef = useKeepInViewWhileOpening<HTMLDivElement>(isOpen, SLIDE_MS);
 
   return (
-    <Root>
+    <Root ref={rootRef}>
       <Heading>
         <Trigger
           id={triggerId}

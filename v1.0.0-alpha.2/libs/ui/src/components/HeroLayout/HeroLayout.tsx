@@ -1,10 +1,14 @@
+import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Accordion } from '../Accordion';
 import { BottomHeroSection } from '../BottomHeroSection';
 import { ChatBot } from '../ChatBot';
+import { InfoNote } from '../InfoNote';
 import { StepsVariant1 } from '../StepsVariant1';
 import {
   HeadingWrap,
   HeroSection,
+  StepsColumn,
   Toggle,
   ToggleButton,
 } from './HeroLayout.styles';
@@ -27,24 +31,28 @@ function HeroHeading() {
   );
 }
 
-export function HeroOriginal() {
+// The steps sit in a collapsed accordion under the chat card; the credit note stays visible below it.
+function HeroContent({ steps }: { steps: ReactNode }) {
+  const { t } = useTranslation();
+
   return (
     <HeroSection>
       <HeroHeading />
       <ChatBot />
-      <BottomHeroSection />
+      <StepsColumn>
+        <Accordion title={t('hero.how-it-works')}>{steps}</Accordion>
+        <InfoNote />
+      </StepsColumn>
     </HeroSection>
   );
 }
 
+export function HeroOriginal() {
+  return <HeroContent steps={<BottomHeroSection />} />;
+}
+
 export function HeroVariant1() {
-  return (
-    <HeroSection>
-      <HeroHeading />
-      <ChatBot />
-      <StepsVariant1 />
-    </HeroSection>
-  );
+  return <HeroContent steps={<StepsVariant1 />} />;
 }
 
 export function HeroLayout({ variant }: { variant: LayoutVariant }) {

@@ -1,5 +1,4 @@
 import { useTranslation } from 'react-i18next';
-import { InfoNote } from '../InfoNote';
 import {
   Container,
   Item,
@@ -34,7 +33,6 @@ export function StepsVariant1() {
           );
         })}
       </Ladder>
-      <InfoNote />
     </Container>
   );
 }

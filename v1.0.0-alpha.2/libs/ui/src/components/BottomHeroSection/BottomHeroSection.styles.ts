@@ -1,21 +1,15 @@
 import styled from '@emotion/styled';
 import { theme } from '../../lib/theme';
 
-export const Details = styled.div`
-  width: 100%;
-  max-width: 1000px;
-`;
-
 export const StepsList = styled.ol`
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 14px;
   margin: 0;
   padding: 0;
   list-style: none;
 
   @media (max-width: 900px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 12px;
   }
 

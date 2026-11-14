@@ -20,6 +20,15 @@ export const HeroSection = styled.section`
   }
 `;
 
+export const StepsColumn = styled.div`
+  width: 100%;
+  max-width: ${theme.layout.columnWidth};
+
+  @media (max-width: 900px) {
+    max-width: ${theme.layout.columnWidthTablet};
+  }
+`;
+
 export const HeadingWrap = styled.div`
   width: 100%;
   max-width: 860px;

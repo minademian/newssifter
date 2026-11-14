@@ -5,6 +5,7 @@ export * from './components/ChatBot';
 export * from './components/BottomHeroSection';
 export * from './components/SourceNuance';
 export * from './components/SourceNotice';
+export * from './components/Accordion';
 export * from './components/AdminData';
 export * from './components/AppShell';
 export * from './components/BackLink';

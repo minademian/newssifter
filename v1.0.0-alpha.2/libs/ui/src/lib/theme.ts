@@ -15,6 +15,11 @@ export const theme = {
     line: 'var(--line)',
     surface: 'var(--surface)',
   },
+  // Width of the home page column, shared by the chat card and the accordion under it.
+  layout: {
+    columnWidth: '720px',
+    columnWidthTablet: '560px',
+  },
 } as const;
 
 export type Theme = typeof theme;

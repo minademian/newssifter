@@ -31,7 +31,7 @@ type Sender = 'user' | 'assistant';
 
 export const Card = styled.section`
   width: 100%;
-  max-width: 720px;
+  max-width: ${theme.layout.columnWidth};
   overflow: hidden;
   border: 1px solid ${theme.colors.line};
   border-radius: 24px;
@@ -51,7 +51,7 @@ export const Card = styled.section`
   }
 
   @media (max-width: 900px) {
-    max-width: 560px;
+    max-width: ${theme.layout.columnWidthTablet};
   }
 
   @media (max-width: 520px) {

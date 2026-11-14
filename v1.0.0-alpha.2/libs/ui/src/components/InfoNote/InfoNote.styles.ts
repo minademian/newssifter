@@ -9,7 +9,6 @@ export const Note = styled.div`
   gap: 13px;
   margin-top: 22px;
   padding-top: 18px;
-  border-top: 1px solid ${theme.colors.line};
 
   @media (max-width: 900px) {
     margin-top: 18px;

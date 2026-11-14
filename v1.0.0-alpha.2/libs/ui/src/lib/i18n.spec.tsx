@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { Trans } from 'react-i18next';
 import '@newssifter/services/i18n.browser.service';
 import { CopyButton } from '../components/CopyButton';
@@ -15,13 +15,38 @@ describe('ui strings come from en_US.json', () => {
     HTMLElement.prototype.scrollTo = jest.fn();
   });
 
-  it('translates the steps and the info note', () => {
+  it('translates the steps', () => {
     render(<StepsVariant1 />);
 
     expect(screen.getByText('Enter a source')).toBeTruthy();
     expect(screen.getByText('Get more context')).toBeTruthy();
-    expect(screen.getByText("Inspired by Melissa Zimdar's")).toBeTruthy();
   });
+
+  it.each(['original', 'variant-1'] as const)(
+    'keeps the %s steps in a collapsed accordion, with the credit note below it',
+    (variant) => {
+      render(<HeroLayout variant={variant} />);
+
+      const trigger = screen.getByRole('button', {
+        name: 'How does Newssifter work?',
+      });
+      expect(trigger.getAttribute('aria-expanded')).toBe('false');
+      expect(
+        screen.queryByRole('region', { name: 'How does Newssifter work?' })
+      ).toBeNull();
+      // the credit note is not part of the panel, so it is visible while collapsed
+      expect(screen.getByText("Inspired by Melissa Zimdar's")).toBeTruthy();
+
+      fireEvent.click(trigger);
+
+      const panel = screen.getByRole('region', {
+        name: 'How does Newssifter work?',
+      });
+      expect(trigger.getAttribute('aria-expanded')).toBe('true');
+      expect(panel.textContent).toContain('Enter a news source or article.');
+      expect(panel.textContent).not.toContain('Inspired by');
+    }
+  );
 
   it('translates the notices', () => {
     render(

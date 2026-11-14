@@ -1,25 +1,13 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 
-import session from 'express-session';
 import helmet from 'helmet';
 import cors from 'cors';
-import csrf from 'csurf';
-import RedisStore from 'connect-redis';
-import { createClient } from 'redis';
 import { rateLimit } from 'express-rate-limit';
 import hpp from 'hpp';
 
 import { routes } from './routes';
 import config from './services/config';
-
-const redisClient = createClient();
-redisClient.connect().catch(console.error);
-
-const redisStore = new RedisStore({
-  client: redisClient,
-  prefix: config.ApiStorePrefix,
-});
 
 const app = express();
 
@@ -31,26 +19,15 @@ const limiter = rateLimit({
   // TODO: refactor with a lib that's compatible with both limiter and express
 });
 
-config.checkEnvVariables();
-
 app.use(
   bodyParser.json({
     limit: '8mb',
   })
 );
 
-app.use(
-  session({
-    store: redisStore,
-    resave: false,
-    saveUninitialized: false,
-    secret: config.ApiStorePrefix,
-  })
-);
-app.use(hpp());
+app.use(hpp() as unknown as express.RequestHandler);
 app.disable('x-powered-by');
 app.use(helmet());
-app.use(csrf());
 app.use(
   cors({
     credentials: true,

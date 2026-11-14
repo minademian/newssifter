@@ -11,6 +11,7 @@ import {
 import { ArrowRightIcon } from '../ArrowRightIcon';
 import { Avatar } from '../Avatar';
 import { ComposerNote } from '../ComposerNote';
+import { Logo } from '../Logo';
 import { SourceNotice } from '../SourceNotice';
 import { SourceNuance } from '../SourceNuance';
 import { VisuallyHidden, VisuallyHiddenLabel } from '../VisuallyHidden';
@@ -31,7 +32,6 @@ import {
   Speaker,
   StatusDot,
   Submit,
-  Title,
   TypeLabel,
   TypePill,
   TypeRow,
@@ -53,10 +53,7 @@ export function ChatBot() {
     <Card aria-label={t('chatbot.aria-label')}>
       <Header>
         <Identity>
-          <Avatar variant="header" />
-          <span>
-            <Title>{t('chatbot.app-title')}</Title>
-          </span>
+          <Logo alt={t('chatbot.app-title')} />
         </Identity>
         <Ready>
           <StatusDot />
@@ -66,7 +63,7 @@ export function ChatBot() {
 
       <Conversation ref={conversationRef} aria-live="polite">
         <Entry>
-          <Avatar variant="bot" />
+          <Avatar />
           <EntryContent>
             <Speaker>{t('chatbot.speaker-bot-now')}</Speaker>
             <Bubble sender="assistant">
@@ -78,7 +75,7 @@ export function ChatBot() {
 
         {messages.map((message, index) => (
           <Entry key={index} sender={message.sender}>
-            {message.sender === 'assistant' && <Avatar variant="bot" />}
+            {message.sender === 'assistant' && <Avatar />}
             <EntryContent sender={message.sender}>
               <Speaker>
                 {message.sender === 'user'
@@ -102,7 +99,7 @@ export function ChatBot() {
 
         {isTyping && (
           <Entry>
-            <Avatar variant="bot" />
+            <Avatar />
             <EntryContent>
               <Speaker>{t('chatbot.speaker-bot')}</Speaker>
               <TypingBubble sender="assistant">

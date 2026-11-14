@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  Actions,
   Brand,
   BrandBanner,
   Container,
@@ -26,7 +27,7 @@ export function AppShell({ headerActions, footer, children }: AppShellProps) {
           <Brand href="/" aria-label={t('site.home-label')}>
             <BrandBanner src="/banner.jpeg" alt="" />
           </Brand>
-          {headerActions}
+          <Actions>{headerActions}</Actions>
         </Header>
 
         {children}

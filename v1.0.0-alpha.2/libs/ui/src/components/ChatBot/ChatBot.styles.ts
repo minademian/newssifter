@@ -80,14 +80,6 @@ export const Identity = styled.div`
   gap: 12px;
 `;
 
-export const Title = styled.span`
-  display: block;
-  color: ${theme.colors.ink};
-  font-size: 14px;
-  font-weight: 750;
-  letter-spacing: -0.02em;
-`;
-
 export const Ready = styled.span`
   display: inline-flex;
   align-items: center;

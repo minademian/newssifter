@@ -33,22 +33,43 @@ export const Container = styled.div`
   }
 `;
 
+// Three columns with equal outer ones, so the banner sits in the true middle whatever
+// the width of the page controls on the right. On narrow screens they stack instead.
 export const Header = styled.header`
   min-height: 92px;
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
   align-items: center;
-  justify-content: space-between;
   border-bottom: 1px solid ${theme.colors.line};
 
   @media (max-width: 520px) {
     min-height: 72px;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    row-gap: 4px;
+    padding-bottom: 8px;
+  }
+`;
+
+export const Actions = styled.div`
+  grid-column: 3;
+  justify-self: end;
+
+  @media (max-width: 520px) {
+    grid-column: 1;
+    justify-self: center;
   }
 `;
 
 export const Brand = styled.a`
+  grid-column: 2;
   display: inline-flex;
   align-items: center;
   text-decoration: none;
+
+  @media (max-width: 520px) {
+    grid-column: 1;
+  }
 `;
 
 export const BrandBanner = styled.img`

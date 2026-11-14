@@ -38,6 +38,9 @@ describe('ChatBot', () => {
 
     expect(screen.getByText('READY')).toBeTruthy();
     expect(screen.getByText('NEWS SIFTER · NOW')).toBeTruthy();
+    expect(
+      screen.getByRole('img', { name: 'News Sifter' }).getAttribute('src')
+    ).toBe('/logo-full.jpeg');
     expect(screen.getByLabelText('Paste a news source URL')).toBeTruthy();
   });
 

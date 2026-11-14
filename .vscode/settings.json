@@ -11,5 +11,8 @@
   "editor.quickSuggestions": {
     "strings": true
   },
-  "css.customData": [".vscode/css_custom_data.json"]
+  "css.customData": [
+    ".vscode/css_custom_data.json"
+  ],
+  "postman.settings.dotenv-detection-notification-visibility": false
 }

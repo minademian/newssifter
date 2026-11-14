@@ -10,6 +10,38 @@
       "cta-label": "Paste a source URL and I’ll check whether it appears in our database.",
       "cta-btn": "Check source",
       "cta-placeholder": "Paste a news source URL"
+    },
+    "admin": {
+      "title": "Source data",
+      "back": "Back to lookup",
+      "home-label": "News Sifter home",
+      "loading": "Loading sources...",
+      "load-error": "Could not load sources.",
+      "request-failed": "The request failed with status {{status}}.",
+      "search-label": "Search sources",
+      "search-placeholder": "Search by URL",
+      "count": "Showing {{shown}} of {{total}} sources",
+      "columns": {
+        "url": "URL",
+        "type": "Type",
+        "type2": "2nd type"
+      }
+    },
+    "type-filter": {
+      "all": "all",
+      "none": "none"
+    },
+    "copy-button": {
+      "copy": "Copy",
+      "copied": "Copied",
+      "failed": "Copy failed",
+      "aria-label": "Copy {{text}}"
+    },
+    "sample-url-button": {
+      "generate": "Generate a sample URL and copy it",
+      "copied": "Sample URL copied",
+      "failed": "Copy failed",
+      "aria-label": "Generate a sample URL for {{source}} and copy it"
     }
   }
 }

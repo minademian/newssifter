@@ -19,8 +19,8 @@
       "@newssifter/helpers": ["libs/helpers/index.ts"],
       "@newssifter/hooks": ["libs/hooks/index.ts"],
       "@newssifter/locales": ["libs/locales/*"],
-      "@newssifter/services/*": ["libs/services/src/lib/*"],
-      "@newssifter/specifications": ["libs/specifications/src/index.ts"],
+      "@newssifter/services/*": ["libs/services/*"],
+      "@newssifter/specifications": ["libs/specifications/index.ts"],
       "@newssifter/ui": ["libs/ui/src/index.ts"]
     }
   },

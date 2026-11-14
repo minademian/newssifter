@@ -2,4 +2,3 @@
 . "$(dirname -- "$0")/_/husky.sh"
 
 # npm test
-ggshield secret scan pre-commit

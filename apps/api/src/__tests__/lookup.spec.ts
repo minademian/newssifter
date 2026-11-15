@@ -1,5 +1,4 @@
 import { ExtractDomainName } from '../controllers/lookup.controller';
-import config from '../services/config';
 
 describe('Lookup route functions', () => {
   it('should return the domain name', () => {

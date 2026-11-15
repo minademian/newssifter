@@ -10,7 +10,9 @@ export function SiteFooter() {
       <span>
         <Trans
           i18nKey="site.footer-rights"
-          components={{ company: <a href="https://ursinenterprises.com/" /> }}
+          components={{
+            company: <a href="https://ursinenterprises.com/">Ursine Enterprises</a>,
+          }}
         />
       </span>
     </Footer>

@@ -85,7 +85,11 @@ describe('ui strings come from en_US.json', () => {
     render(
       <Trans
         i18nKey="site.footer-rights"
-        components={{ company: <a href="https://ursine.enterprises/" /> }}
+        components={{
+          company: (
+            <a href="https://ursinenterprises.com/">Ursine Enterprises</a>
+          ),
+        }}
       />
     );
 

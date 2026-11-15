@@ -122,12 +122,12 @@ export DEPLOY_SSH_KEY=~/.ssh/YOUR_KEY
 ```
 
 ```sh
-./deploy/deploy.sh --version 1.0.0-alpha.2            # dry run
-./deploy/deploy.sh --version 1.0.0-alpha.2 --apply    # asks you to type PRODUCTION
+./deploy/deploy.sh            # dry run
+./deploy/deploy.sh --apply    # asks you to type PRODUCTION
 ```
 
-`--version X` builds from the `vX` directory at the repo root (`--version 1.0.0-alpha.2` uses `v1.0.0-alpha.2/`) and
-refuses if that directory does not exist. The dry run builds both apps, packs `v<version>/dist/release/newssifter-<version>.tar.gz`, checks the server read-only (setup
+The version is read from `package.json` at the repo root; bump it first with `./scripts/bump-version.sh [major|minor|patch|prerelease]`. The script
+builds from the repo root. The dry run builds both apps, packs `dist/release/newssifter-<version>.tar.gz`, checks the server read-only (setup
 present, version not already released, current release) and lists the releases that would be pruned. `--apply` uploads, unpacks
 into `releases/<version>`, swaps `current`, restarts `newssifter-api` and requests `http://127.0.0.1:3000/api` on the server. If that
 fails ten times it points `current` back at the previous release and restarts. The newest 5 releases are kept; older ones are

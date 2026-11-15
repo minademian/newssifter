@@ -1,8 +1,8 @@
 {
   "name": "@newssifter/source",
-  "version": "0.0.0",
+  "version": "1.0.0-alpha.2",
   "scripts": {
-    "prepare": "cd .. && husky install",
+    "prepare": "husky install",
     "test": "npx nx affected -t test && npx nx affected -t component-test",
     "test:watch": "npx nx affected:test --all --parallel --maxParallel 10 --watch",
     "dev": "nx run-many --parallel --target=serve --all",

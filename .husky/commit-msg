@@ -1,8 +1,8 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-# Check the commit message with commitlint, run from the workspace directory that holds
-# commitlint.config.js (its name changes per version, so it is found, not hardcoded).
+# Check the commit message with commitlint, run from the repo root, where
+# commitlint.config.js lives.
 # The binary is called directly: `pnpm exec` can start an install, which a hook must not do.
 repo_root="$(git rev-parse --show-toplevel)"
 commit_msg_file="$1"
@@ -12,20 +12,9 @@ case "$commit_msg_file" in
  *) commit_msg_file="$repo_root/$commit_msg_file" ;;
 esac
 
-found=0
-for config in "$repo_root"/*/commitlint.config.js; do
-  [ -f "$config" ] || continue
-  found=1
-  workspace="$(dirname "$config")"
-
-  if [ ! -x "$workspace/node_modules/.bin/commitlint" ]; then
-    echo "commit-msg: commitlint is not installed in $workspace. Run pnpm install there." >&2
-    exit 1
-  fi
-
-  (cd "$workspace" && ./node_modules/.bin/commitlint --edit "$commit_msg_file") || exit 1
-done
-
-if [ "$found" = 0 ]; then
-  echo "commit-msg: no commitlint.config.js found in a top-level directory, so the message was not checked." >&2
+if [ ! -x "$repo_root/node_modules/.bin/commitlint" ]; then
+  echo "commit-msg: commitlint is not installed in $repo_root. Run pnpm install." >&2
+  exit 1
 fi
+
+(cd "$repo_root" && ./node_modules/.bin/commitlint --edit "$commit_msg_file") || exit 1

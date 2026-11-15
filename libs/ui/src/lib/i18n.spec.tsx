@@ -94,7 +94,7 @@ describe('ui strings come from en_US.json', () => {
     );
 
     const link = screen.getByRole('link', { name: 'Ursine Enterprises' });
-    expect(link.getAttribute('href')).toBe('https://ursine.enterprises/');
+    expect(link.getAttribute('href')).toBe('https://ursinenterprises.com/');
     expect(document.body.textContent).toContain(
       '© 2026 Newssifter. All rights reserved by Ursine Enterprises.'
     );

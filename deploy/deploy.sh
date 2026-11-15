@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Production (Fedora droplet): build and deploy Newssifter as a versioned release.
-# Builds the api and chatbot apps from the v<version> directory at the repo root, packs them
+# Builds the api and chatbot apps from the repo root (version read from package.json), packs them
 # into one tarball, uploads it, unpacks it into
 # /var/www/newssifter/releases/<version>, repoints /var/www/newssifter/current and restarts
 # newssifter-api. If the health check fails it points "current" back at the previous release.
@@ -8,8 +8,8 @@
 # --apply requires typing PRODUCTION. Does not do first-time server setup: see deploy/README.md.
 #
 # Usage:
-#   ./deploy/deploy.sh --version 1.0.0-alpha.2            # dry-run
-#   ./deploy/deploy.sh --version 1.0.0-alpha.2 --apply
+#   ./deploy/deploy.sh                                    # dry-run
+#   ./deploy/deploy.sh --apply
 #
 set -euo pipefail
 
@@ -34,11 +34,6 @@ while [[ $# -gt 0 ]]; do
       APPLY=true
       shift
       ;;
-    --version)
-      [[ $# -ge 2 ]] || { echo "ERROR: --version requires a value (e.g. 1.0.0-alpha.1)" >&2; exit 1; }
-      VERSION="$2"
-      shift 2
-      ;;
     -h|--help)
       sed -n '2,12p' "$0"
       exit 0
@@ -52,7 +47,7 @@ done
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
-# Set by resolve_workspace once --version is known.
+# Set by validate_version and resolve_workspace.
 WORKSPACE_DIR=""
 RELEASE_DIR=""
 
@@ -93,20 +88,20 @@ confirm_production() {
 }
 
 validate_version() {
-  [[ -n "${VERSION}" ]] || die "--version is required (e.g. --version 1.0.0-alpha.2)"
+  VERSION="$(node -p "require('${REPO_DIR}/package.json').version")" || die "Could not read the version from package.json"
+  [[ -n "${VERSION}" ]] || die "No version found in package.json (e.g. 1.0.0-alpha.2)"
   [[ "${VERSION}" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.]+)?$ ]] \
     || die "Version '${VERSION}' must look like X.Y.Z or X.Y.Z-label"
 }
 
-# Each version is built from its own source directory, v<version> at the repo root.
+# The workspace is the repo root; the version comes from its package.json.
 resolve_workspace() {
-  WORKSPACE_DIR="${REPO_DIR}/v${VERSION}"
-  [[ -d "${WORKSPACE_DIR}" ]] || die "No source directory ${WORKSPACE_DIR} for version ${VERSION}"
+  WORKSPACE_DIR="${REPO_DIR}"
   RELEASE_DIR="${WORKSPACE_DIR}/dist/release"
 }
 
 build_and_pack() {
-  info "==> Building api and chatbot (production) from v${VERSION}"
+  info "==> Building api and chatbot (production) for ${VERSION}"
   (cd "${WORKSPACE_DIR}" && npx nx build api --configuration=production)
   (cd "${WORKSPACE_DIR}" && npx nx build chatbot --configuration=production --emptyOutDir)
 
